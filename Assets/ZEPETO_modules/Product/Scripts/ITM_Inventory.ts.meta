@@ -1,0 +1,36 @@
+fileFormatVersion: 2
+guid: a7038d9d885ff4e289556ed9b5d691c7
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nclass
+    ITM_Inventory extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start()
+    {\r\n        this.GetComponent($typeof(UnityEngine_UI_1.Toggle)).group = this.transform.parent.GetComponent($typeof(UnityEngine_UI_1.ToggleGroup));\r\n   
+    }\r\n    RefreshItem(ir, isShowQuantity = true) {\r\n        this.itemRecord
+    = ir;\r\n        this.quantityTxt.text = isShowQuantity ? this.itemRecord.quantity.toString()
+    : \"\";\r\n    }\r\n    isOn(boolean) {\r\n        this.GetComponent($typeof(UnityEngine_UI_1.Toggle)).isOn
+    = boolean;\r\n        this.isOnUIObj.SetActive(boolean);\r\n    }\r\n}\r\nexports.default
+    = ITM_Inventory;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSVRNX0ludmVudG9yeS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIklUTV9JbnZlbnRvcnkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFDckQsbURBQWlFO0FBQ2pFLDZDQUF3QztBQUd4QyxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBT3BELEtBQUs7UUFDVCxJQUFJLENBQUMsWUFBWSxTQUFDLHVCQUFNLEVBQUcsQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsWUFBWSxTQUFDLDRCQUFXLEVBQUcsQ0FBQztJQUMxRixDQUFDO0lBRU0sV0FBVyxDQUFDLEVBQW1CLEVBQUUsaUJBQTBCLElBQUk7UUFDbEUsSUFBSSxDQUFDLFVBQVUsR0FBRyxFQUFFLENBQUM7UUFDckIsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLEdBQUcsY0FBYyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLFFBQVEsQ0FBQyxRQUFRLEVBQUUsQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUFDO0lBQ3RGLENBQUM7SUFFTSxJQUFJLENBQUMsT0FBZ0I7UUFDeEIsSUFBSSxDQUFDLFlBQVksU0FBQyx1QkFBTSxFQUFHLENBQUMsSUFBSSxHQUFHLE9BQU8sQ0FBQztRQUMzQyxJQUFJLENBQUMsU0FBUyxDQUFDLFNBQVMsQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUN0QyxDQUFDO0NBRUo7QUFyQkQsZ0NBcUJDIn0=","assetPath":"Assets/ZEPETO_modules/Product/Scripts/ITM_Inventory.ts","manifest":{"properties":[{"assembly":"ZEPETO.Product","name":"itemRecord","type":"ZEPETO.Inventory.InventoryRecord","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"itemImage","type":"UnityEngine.UI.Image","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"quantityTxt","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"isOnUIObj","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"ITM_Inventory","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: cb93f1bab76a7c653fed6a1289c941cf
+  onlyWriteTrigger: 0

@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1625392349, guid: 76fef30029352bb4a9c668c0f9daa8c1, type: 3}
+  m_Name: AnzuAppSettings
+  m_EditorClassIdentifier: 
+  InitSDKOnAppStart: 1
+  AppKeyToLoadInEditor: 
+  OSX:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  Windows:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  Linux:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  Android:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  iOS:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  tvOS:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  UWP:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  XboxOne:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0
+  PS4:
+    AppKey: 
+    AppIdentifier: 
+    LogLevel: 1
+    UseSimpleRunLoop: 0
+    DirectGpuTextureUpdates: 1
+    RaycastTriggerIgnore: 1
+    UseUnityImageLoader: 0
+    UseUnityTextureUploader: 0
+    DisableIDFAPopupOnSDKInit: 0
+    UseAnzuGeneratedTextures: 0
+    UseVRCalculations: 0

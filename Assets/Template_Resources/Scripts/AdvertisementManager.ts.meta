@@ -1,0 +1,65 @@
+fileFormatVersion: 2
+guid: 9f6745dee535f4745bcd6b35c2adf114
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    ZEPETO_Advertisement_General_1 = require(\"ZEPETO.Advertisement.General\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst RunnerPlayerManager_1
+    = require(\"./RunnerPlayerManager\");\r\nconst AD_KEY = \"Monetize_Template\";\r\nclass
+    AdvertisementManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    //
+    Method to reward the user with an additional shield\r\n    rewardAddShield()
+    {\r\n        RunnerPlayerManager_1.default.Instance.AddShield();\r\n    }\r\n   
+    // Method to reward the user with a high jump ability\r\n    rewardAddHighJump()
+    {\r\n        RunnerPlayerManager_1.default.Instance.AddHighJump();\r\n    }\r\n   
+    // Method to reward the user with a resurrection action and log the reward provision\r\n   
+    rewardUserResurrect() {\r\n        RunnerPlayerManager_1.default.Instance.OnClickResurrect();\r\n       
+    console.log(\"Reward provided to the user.\");\r\n    }\r\n    // Unity''s Start
+    method, which is called on the script''s initialization\r\n    Start() {\r\n       
+    // Adding click event listeners to each resurrection button\r\n        this.buttonResurrects.forEach(button
+    => {\r\n            button.onClick.AddListener(() => {\r\n                //
+    Show an advertisement and call rewardUserResurrect upon successful ad completion\r\n               
+    this.ShowAd(this.rewardUserResurrect);\r\n            });\r\n        });\r\n       
+    this.buttonHighJump.onClick.AddListener(() => {\r\n            this.ShowAd(this.rewardAddHighJump);\r\n           
+    //this.rewardAddHighJump();\r\n        });\r\n    }\r\n    // Method to show
+    an advertisement and specify a reward function to call upon ad completion\r\n   
+    ShowAd(rewardFunction) {\r\n        ZEPETO_Advertisement_General_1.WorldAdvertisement.Show(AD_KEY,
+    // Using the defined advertisement key\r\n        // Using the defined advertisement
+    key\r\n        result => this.OnAdShowResult(result, rewardFunction) // Handling
+    the ad result and specifying the reward function\r\n        );\r\n    }\r\n   
+    // Method to handle the result of the advertisement show\r\n    OnAdShowResult(result,
+    rewardFunction) {\r\n        if (result === ZEPETO_Advertisement_General_1.AdShowResult.Finished)
+    {\r\n            // If the ad was successfully watched to completion\r\n           
+    console.log(\"Ad show successful; Finished.\");\r\n            rewardFunction();
+    // Call the specified reward function\r\n            return;\r\n        }\r\n       
+    // Variable to store the failure message\r\n        let failMessage;\r\n       
+    // Determine the appropriate failure message based on the ad result\r\n       
+    switch (result) {\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.Failed:\r\n               
+    failMessage = \"Failed\";\r\n                break;\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.Skipped:\r\n               
+    failMessage = \"Skipped\";\r\n                break;\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.NotReady:\r\n               
+    failMessage = \"NotReady\";\r\n                break;\r\n            default:\r\n               
+    failMessage = \"Unknown result\";\r\n                break;\r\n        }\r\n       
+    // Log the failure message\r\n        console.log(`Ad show failed; ${failMessage}.`);\r\n   
+    }\r\n}\r\nexports.default = AdvertisementManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWR2ZXJ0aXNlbWVudE1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZHZlcnRpc2VtZW50TWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG1EQUF3QztBQUN4QywrRUFBZ0Y7QUFDaEYsaURBQXNEO0FBQ3RELCtEQUF3RDtBQUV4RCxNQUFNLE1BQU0sR0FBVyxtQkFBbUIsQ0FBQztBQUUzQyxNQUFxQixvQkFBcUIsU0FBUSxxQ0FBcUI7SUFPbkUsc0RBQXNEO0lBQ3RELGVBQWU7UUFDWCw2QkFBbUIsQ0FBQyxRQUFRLENBQUMsU0FBUyxFQUFFLENBQUM7SUFDN0MsQ0FBQztJQUVELHFEQUFxRDtJQUNyRCxpQkFBaUI7UUFDYiw2QkFBbUIsQ0FBQyxRQUFRLENBQUMsV0FBVyxFQUFFLENBQUM7SUFDL0MsQ0FBQztJQUVELG9GQUFvRjtJQUNwRixtQkFBbUI7UUFDZiw2QkFBbUIsQ0FBQyxRQUFRLENBQUMsZ0JBQWdCLEVBQUUsQ0FBQztRQUNoRCxPQUFPLENBQUMsR0FBRyxDQUFDLDhCQUE4QixDQUFDLENBQUM7SUFDaEQsQ0FBQztJQUVELHVFQUF1RTtJQUN2RSxLQUFLO1FBRUQsMkRBQTJEO1FBQzNELElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxPQUFPLENBQUMsTUFBTSxDQUFDLEVBQUU7WUFDbkMsTUFBTSxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO2dCQUU1QixtRkFBbUY7Z0JBQ25GLElBQUksQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLG1CQUFtQixDQUFDLENBQUM7WUFDMUMsQ0FBQyxDQUFDLENBQUM7UUFDUCxDQUFDLENBQUMsQ0FBQztRQUVILElBQUksQ0FBQyxjQUFjLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDekMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsaUJBQWlCLENBQUMsQ0FBQztZQUNwQywyQkFBMkI7UUFDL0IsQ0FBQyxDQUFDLENBQUM7SUFDUCxDQUFDO0lBRUQsMkZBQTJGO0lBQzNGLE1BQU0sQ0FBQyxjQUEwQjtRQUM3QixpREFBa0IsQ0FBQyxJQUFJLENBQ25CLE1BQU0sRUFBRSxzQ0FBc0M7UUFDOUMsQUFEUSxzQ0FBc0M7UUFDOUMsTUFBTSxDQUFDLEVBQUUsQ0FBQyxJQUFJLENBQUMsY0FBYyxDQUFDLE1BQU0sRUFBRSxjQUFjLENBQUMsQ0FBQyw0REFBNEQ7U0FDckgsQ0FBQztJQUNOLENBQUM7SUFFRCx3REFBd0Q7SUFDeEQsY0FBYyxDQUFDLE1BQW9CLEVBQUUsY0FBMEI7UUFDM0QsSUFBSSxNQUFNLEtBQUssMkNBQVksQ0FBQyxRQUFRLEVBQUU7WUFDbEMsbURBQW1EO1lBQ25ELE9BQU8sQ0FBQyxHQUFHLENBQUMsK0JBQStCLENBQUMsQ0FBQztZQUM3QyxjQUFjLEVBQUUsQ0FBQyxDQUFDLHFDQUFxQztZQUN2RCxPQUFPO1NBQ1Y7UUFFRCx3Q0FBd0M7UUFDeEMsSUFBSSxXQUFtQixDQUFDO1FBQ3hCLG1FQUFtRTtRQUNuRSxRQUFRLE1BQU0sRUFBRTtZQUNaLEtBQUssMkNBQVksQ0FBQyxNQUFNO2dCQUNwQixXQUFXLEdBQUcsUUFBUSxDQUFDO2dCQUN2QixNQUFNO1lBQ1YsS0FBSywyQ0FBWSxDQUFDLE9BQU87Z0JBQ3JCLFdBQVcsR0FBRyxTQUFTLENBQUM7Z0JBQ3hCLE1BQU07WUFDVixLQUFLLDJDQUFZLENBQUMsUUFBUTtnQkFDdEIsV0FBVyxHQUFHLFVBQVUsQ0FBQztnQkFDekIsTUFBTTtZQUNWO2dCQUNJLFdBQVcsR0FBRyxnQkFBZ0IsQ0FBQztnQkFDL0IsTUFBTTtTQUNiO1FBQ0QsMEJBQTBCO1FBQzFCLE9BQU8sQ0FBQyxHQUFHLENBQUMsbUJBQW1CLFdBQVcsR0FBRyxDQUFDLENBQUM7SUFDbkQsQ0FBQztDQUNKO0FBOUVELHVDQThFQyJ9","assetPath":"Assets/Template_Resources/Scripts/AdvertisementManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.UI","name":"buttonResurrects","type":"UnityEngine.UI.Button[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"buttonHighJump","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdvertisementManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: f14a5df031479eedf890ba6589f5e6ae
+  onlyWriteTrigger: 0

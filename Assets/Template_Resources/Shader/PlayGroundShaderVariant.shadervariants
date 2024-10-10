@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!200 &20000000
+ShaderVariantCollection:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlayGroundShaderVariant
+  m_Shaders:
+  - first: {fileID: 4800000, guid: b8002ee96dae32c43885124d3382ca9f, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800000, guid: 97d624e096c263c48a210a1e16deb9b3, type: 3}
+    second:
+      variants: []

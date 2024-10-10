@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 6aecec85b636e46a6a9a390ee57a681a
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst __UnityEngine__ = require(\"UnityEngine\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    RunnerPlayerManager_1 = require(\"./RunnerPlayerManager\");\r\nclass RunnerEndController
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n        this.runnerManager
+    = RunnerPlayerManager_1.default.Instance;\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        if (RunnerPlayerManager_1.default.Instance.LocalCharacter == null
+    || __UnityEngine__.Object.op_Inequality(collider.gameObject, RunnerPlayerManager_1.default.Instance.LocalCharacter.gameObject))
+    {\r\n            return;\r\n        }\r\n        else {\r\n            this.runnerManager.lastSpawnPoint
+    = this.transform.position;\r\n        }\r\n    }\r\n}\r\nexports.default = RunnerEndController;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUnVubmVyUGxhdGZvcm1Db250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUnVubmVyUGxhdGZvcm1Db250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLDZDQUFtRztBQUNuRyxpREFBc0Q7QUFDdEQsK0RBQXdEO0FBRXhELE1BQXFCLG1CQUFvQixTQUFRLHFDQUFxQjtJQUlsRSxLQUFLO1FBQ0QsSUFBSSxDQUFDLGFBQWEsR0FBRyw2QkFBbUIsQ0FBQyxRQUFRLENBQUM7SUFDdEQsQ0FBQztJQUVELGNBQWMsQ0FBQyxRQUFrQjtRQUU3QixJQUFJLDZCQUFtQixDQUFDLFFBQVEsQ0FBQyxjQUFjLElBQUksSUFBSSwyQkFPaytwQixhQUFjLENBUDUrcEIsUUFBUSxDQUFDLFVBQVUsRUFBSSw2QkFBbUIsQ0FBQyxRQUFRLENBQUMsY0FBYyxDQUFDLFVBQVUsQ0FBQSxFQUFFO1lBQ3RJLE9BQU87U0FDVjthQUFNO1lBQ0gsSUFBSSxDQUFDLGFBQWEsQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUM7U0FDL0Q7SUFDTCxDQUFDO0NBRUo7QUFqQkQsc0NBaUJDIn0=","assetPath":"Assets/Template_Resources/Scripts/RunnerPlatformController.ts","manifest":{"properties":[],"name":"RunnerEndController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 6f2efaa2e3e19c001d027280e304dddb
+  onlyWriteTrigger: 0

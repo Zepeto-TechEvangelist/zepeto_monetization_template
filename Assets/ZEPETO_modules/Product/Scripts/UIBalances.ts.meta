@@ -1,0 +1,58 @@
+fileFormatVersion: 2
+guid: fa027cbf9620d499a892000473e91204
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Currency_1 = require(\"ZEPETO.Currency\");\r\nconst ZEPETO_Product_1 =
+    require(\"ZEPETO.Product\");\r\nconst ZEPETO_World_1 = require(\"ZEPETO.World\");\r\nconst
+    ZEPETO_Multiplay_1 = require(\"ZEPETO.Multiplay\");\r\nconst RunnerPlayerManager_1
+    = require(\"../../../Template_Resources/Scripts/RunnerPlayerManager\");\r\nconst
+    ToolClassGather_1 = require(\"../../../Zepeto Multiplay Component/ZepetoScript/Common/ToolClassGather\");\r\nclass
+    UIBalances extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._myExp = 0;\r\n        this._amountExp
+    = 30;\r\n        this._myLevel = 1;\r\n    }\r\n    Start() {\r\n        this.RefreshAllBalanceUI();\r\n       
+    this._multiplay = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_World_1.ZepetoWorldMultiplay));\r\n       
+    this._multiplay.add_RoomJoined((room) => {\r\n            this._room = room;\r\n           
+    this.InitMessageHandler();\r\n        });\r\n        this._runnerPlayerManager
+    = RunnerPlayerManager_1.default.Instance;\r\n    }\r\n    InitMessageHandler()
+    {\r\n        this._room.AddMessageHandler(\"SyncBalances\", (message) => {\r\n           
+    this.RefreshAllBalanceUI();\r\n        });\r\n        ZEPETO_Product_1.ProductService.OnPurchaseCompleted.AddListener((product,
+    response) => {\r\n            console.log(\"@@@@@ ProductService.OnPurchaseCompleted
+    @@@@@\");\r\n            this.RefreshAllBalanceUI();\r\n        });\r\n    }\r\n   
+    RefreshAllBalanceUI() {\r\n        this.StartCoroutine(this.RefreshBalanceUI());\r\n       
+    this.StartCoroutine(this.RefreshOfficialCurrencyUI());\r\n    }\r\n    *RefreshBalanceUI()
+    {\r\n        const request = ZEPETO_Currency_1.CurrencyService.GetUserCurrencyBalancesAsync();\r\n       
+    yield new UnityEngine_1.WaitUntil(() => request.keepWaiting == false);\r\n       
+    if (request.responseData.isSuccess) {\r\n            this._runnerPlayerManager.numberStar.text
+    = request.responseData.currencies?.ContainsKey(ToolClassGather_1.Currency.star)
+    ? request.responseData.currencies?.get_Item(ToolClassGather_1.Currency.star).toString()
+    : \"0\";\r\n        }\r\n    }\r\n    *RefreshOfficialCurrencyUI() {\r\n       
+    const request = ZEPETO_Currency_1.CurrencyService.GetOfficialCurrencyBalanceAsync();\r\n       
+    yield new UnityEngine_1.WaitUntil(() => request.keepWaiting == false);\r\n       
+    if (request.responseData.currency.quantity == null) {\r\n            return;\r\n       
+    }\r\n        this._runnerPlayerManager.numberZem.text = request.responseData.currency.quantity.toString();\r\n   
+    }\r\n}\r\nexports.default = UIBalances;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlCYWxhbmNlcy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJQmFsYW5jZXMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFDckQsbURBQWlFO0FBQ2pFLDZDQUErRDtBQUMvRCxxREFBc0Y7QUFDdEYsbURBQStEO0FBQy9ELCtDQUFvRDtBQUNwRCx1REFBa0Q7QUFDbEQsaUdBQTBGO0FBQzFGLDZHQUFnSDtBQUVoSCxNQUFxQixVQUFXLFNBQVEscUNBQXFCO0lBQTdEOztRQUlZLFdBQU0sR0FBVyxDQUFDLENBQUM7UUFDbkIsZUFBVSxHQUFXLEVBQUUsQ0FBQztRQUN4QixhQUFRLEdBQVcsQ0FBQyxDQUFDO0lBK0NqQyxDQUFDO0lBNUNHLEtBQUs7UUFDRCxJQUFJLENBQUMsbUJBQW1CLEVBQUUsQ0FBQztRQUMzQixJQUFJLENBQUMsVUFBVSxHQUFHLG9CQUFNLENBQUMsZ0JBQWdCLFNBQUMsbUNBQW9CLEVBQUcsQ0FBQztRQUVsRSxJQUFJLENBQUMsVUFBVSxnQkFBZSxDQUFDLElBQVUsRUFBRSxFQUFFO1lBQ3pDLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDO1lBQ2xCLElBQUksQ0FBQyxrQkFBa0IsRUFBRSxDQUFDO1FBQzlCLENBQUMsRUFBQTtRQUVELElBQUksQ0FBQyxvQkFBb0IsR0FBRyw2QkFBbUIsQ0FBQyxRQUFRLENBQUM7SUFDN0QsQ0FBQztJQUVPLGtCQUFrQjtRQUN0QixJQUFJLENBQUMsS0FBSyxDQUFDLGlCQUFpQixDQUFjLGNBQWMsRUFBRSxDQUFDLE9BQU8sRUFBRSxFQUFFO1lBQ2xFLElBQUksQ0FBQyxtQkFBbUIsRUFBRSxDQUFDO1FBQy9CLENBQUMsQ0FBQyxDQUFDO1FBQ0gsK0JBQWMsQ0FBQyxtQkFBbUIsQ0FBQyxXQUFXLENBQUMsQ0FBQyxPQUFPLEVBQUUsUUFBUSxFQUFFLEVBQUU7WUFDakUsT0FBTyxDQUFDLEdBQUcsQ0FBQyxnREFBZ0QsQ0FBQyxDQUFDO1lBQzlELElBQUksQ0FBQyxtQkFBbUIsRUFBRSxDQUFDO1FBQy9CLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVPLG1CQUFtQjtRQUN2QixJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDLENBQUM7UUFDN0MsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMseUJBQXlCLEVBQUUsQ0FBQyxDQUFDO0lBQzFELENBQUM7SUFFTyxDQUFDLGdCQUFnQjtRQUNyQixNQUFNLE9BQU8sR0FBRyxpQ0FBZSxDQUFDLDRCQUE0QixFQUFFLENBQUM7UUFDL0QsTUFBTSxJQUFJLHVCQUFTLENBQUMsR0FBRyxFQUFFLENBQUMsT0FBTyxDQUFDLFdBQVcsSUFBSSxLQUFLLENBQUMsQ0FBQztRQUN4RCxJQUFJLE9BQU8sQ0FBQyxZQUFZLENBQUMsU0FBUyxFQUFFO1lBQ2hDLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxVQUFVLENBQUMsSUFBSSxHQUFHLE9BQU8sQ0FBQyxZQUFZLENBQUMsVUFBVSxFQUFFLFdBQVcsQ0FBQywwQkFBUSxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQyxPQUFPLENBQUMsWUFBWSxDQUFDLFVBQVUsRUFBRSxRQUFRLENBQUMsMEJBQVEsQ0FBQyxJQUFJLENBQUMsQ0FBQyxRQUFRLEVBQUUsQ0FBQyxDQUFDLENBQUMsR0FBRyxDQUFDO1NBQ3ZMO0lBQ0wsQ0FBQztJQUVPLENBQUMseUJBQXlCO1FBQzlCLE1BQU0sT0FBTyxHQUFHLGlDQUFlLENBQUMsK0JBQStCLEVBQUUsQ0FBQztRQUNsRSxNQUFNLElBQUksdUJBQVMsQ0FBQyxHQUFHLEVBQUUsQ0FBQyxPQUFPLENBQUMsV0FBVyxJQUFJLEtBQUssQ0FBQyxDQUFDO1FBQ3hELElBQUksT0FBTyxDQUFDLFlBQVksQ0FBQyxRQUFRLENBQUMsUUFBUSxJQUFJLElBQUksRUFBRTtZQUNoRCxPQUFPO1NBQ1Y7UUFDRCxJQUFJLENBQUMsb0JBQW9CLENBQUMsU0FBUyxDQUFDLElBQUksR0FBRyxPQUFPLENBQUMsWUFBWSxDQUFDLFFBQVEsQ0FBQyxRQUFRLENBQUMsUUFBUSxFQUFFLENBQUM7SUFDakcsQ0FBQztDQUVKO0FBckRELDZCQXFEQyJ9","assetPath":"Assets/ZEPETO_modules/Product/Scripts/UIBalances.ts","manifest":{"properties":[],"name":"UIBalances","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 4e3ebf1bc2248b19a6cb9da2e772737b
+  onlyWriteTrigger: 0

@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: ad0e1939fc61e42b09b051114c77ac8a
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst __UnityEngine__ = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst RunnerPlayerManager_1
+    = require(\"./RunnerPlayerManager\");\r\nclass RunnerStartController extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n        this.runnerPlayerManager
+    = RunnerPlayerManager_1.default.Instance;\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        if (this.runnerPlayerManager.LocalCharacter == null || __UnityEngine__.Object.op_Inequality(collider.gameObject,
+    this.runnerPlayerManager.LocalCharacter.gameObject)) {\r\n            return;\r\n       
+    }\r\n        else {\r\n            this.runnerPlayerManager.startPoint = this.StartPoint;\r\n           
+    this.runnerPlayerManager.StartRunning();\r\n        }\r\n    }\r\n}\r\nexports.default
+    = RunnerStartController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUnVubmVyU3RhcnRDb250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUnVubmVyU3RhcnRDb250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLGlEQUFzRDtBQUN0RCwrREFBd0Q7QUFFeEQsTUFBcUIscUJBQXNCLFNBQVEscUNBQXFCO0lBS3BFLEtBQUs7UUFDRCxJQUFJLENBQUMsbUJBQW1CLEdBQUcsNkJBQW1CLENBQUMsUUFBUSxDQUFDO0lBQzVELENBQUM7SUFFRCxjQUFjLENBQUMsUUFBa0I7UUFFN0IsSUFBSSxJQUFJLENBQUMsbUJBQW1CLENBQUMsY0FBYyxJQUFJLElBQUksMkJBUWk4cEIsYUFBYyxDQVIzOHBCLFFBQVEsQ0FBQyxVQUFVLEVBQUksSUFBSSxDQUFDLG1CQUFtQixDQUFDLGNBQWMsQ0FBQyxVQUFVLENBQUEsRUFBRTtZQUM5SCxPQUFPO1NBQ1Y7YUFBTTtZQUNILElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxVQUFVLEdBQUcsSUFBSSxDQUFDLFVBQVUsQ0FBQztZQUN0RCxJQUFJLENBQUMsbUJBQW1CLENBQUMsWUFBWSxFQUFFLENBQUM7U0FDM0M7SUFDTCxDQUFDO0NBRUo7QUFuQkQsd0NBbUJDIn0=","assetPath":"Assets/Template_Resources/Scripts/RunnerStartController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"StartPoint","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"RunnerStartController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 198b181b16859f33e88fedf594a4a2f0
+  onlyWriteTrigger: 0

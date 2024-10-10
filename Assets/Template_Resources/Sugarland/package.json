@@ -1,0 +1,32 @@
+{
+  "name": "asset.sugarland",
+  "scope": "asset",
+  "displayName": "Sugar Land",
+  "version": "1.0.4",
+  "unity": "2020.3",
+  "description": "Sugar Land",
+  "documentationUrl": "https://docs.zepeto.me/studio/reference/sugarland_theme",
+  "keywords": [
+    "asset",
+    "sugar land"
+  ],
+  "license": "LICENSE.md",
+  "licensesUrl": "https://docs.zepeto.me/studio/reference/zepeto_world_license",
+  "category": "Unity",
+  "hideInEditor": false,
+  "author": {
+    "name": "ZEPETO Asset",
+    "email": "support@zepeto.me",
+    "url": "https://zepeto.me"
+  },
+  "dependencies": {
+    "asset.commons": "1.0.6"
+  },
+  "samples": [
+    {
+      "displayName": "Sugar Land Sample Scene",
+      "description": "Sugar Land Sample Scene",
+      "path": "Samples~/SampleScene"
+    }
+  ]
+}

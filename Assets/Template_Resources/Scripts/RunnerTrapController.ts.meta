@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 6c90b4ed98d8a4821a56321b12ec670d
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst __UnityEngine__ = require(\"UnityEngine\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    RunnerPlayerManager_1 = require(\"./RunnerPlayerManager\");\r\nclass RunnerTrapController
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n        this.runnerManager
+    = RunnerPlayerManager_1.default.Instance;\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        if (RunnerPlayerManager_1.default.Instance.LocalCharacter == null
+    || __UnityEngine__.Object.op_Inequality(collider.gameObject, RunnerPlayerManager_1.default.Instance.LocalCharacter.gameObject))
+    {\r\n            return;\r\n        }\r\n        else {\r\n            this.runnerManager.HitTrap();\r\n           
+    console.log(\"Hit Trap\");\r\n        }\r\n    }\r\n}\r\nexports.default = RunnerTrapController;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUnVubmVyVHJhcENvbnRyb2xsZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJSdW5uZXJUcmFwQ29udHJvbGxlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2Q0FBbUc7QUFDbkcsaURBQXNEO0FBQ3RELCtEQUF3RDtBQUV4RCxNQUFxQixvQkFBcUIsU0FBUSxxQ0FBcUI7SUFLbkUsS0FBSztRQUNELElBQUksQ0FBQyxhQUFhLEdBQUcsNkJBQW1CLENBQUMsUUFBUSxDQUFDO0lBQ3RELENBQUM7SUFFRCxjQUFjLENBQUMsUUFBa0I7UUFFN0IsSUFBSSw2QkFBbUIsQ0FBQyxRQUFRLENBQUMsY0FBYyxJQUFJLElBQUksMkJBTzY3cEIsYUFBYyxDQVB2OHBCLFFBQVEsQ0FBQyxVQUFVLEVBQUksNkJBQW1CLENBQUMsUUFBUSxDQUFDLGNBQWMsQ0FBQyxVQUFVLENBQUEsRUFBRTtZQUN0SSxPQUFPO1NBQ1Y7YUFBTTtZQUNILElBQUksQ0FBQyxhQUFhLENBQUMsT0FBTyxFQUFFLENBQUM7WUFDN0IsT0FBTyxDQUFDLEdBQUcsQ0FBQyxVQUFVLENBQUMsQ0FBQztTQUMzQjtJQUNMLENBQUM7Q0FDSjtBQWxCRCx1Q0FrQkMifQ==","assetPath":"Assets/Template_Resources/Scripts/RunnerTrapController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"effect","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"RunnerTrapController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 601ab209622f944bf3ddf240cb2e8f7b
+  onlyWriteTrigger: 0

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -590562033, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: VoiceModeScriptableObject
+  m_EditorClassIdentifier: 
+  keys:
+  - description
+  - img
+  unityValues:
+  - {fileID: 0}
+  - {fileID: 0}
+  values:
+  - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":13,\"type\":\"System.String,
+    mscorlib\",\"isUnity\":false}"}'
+  - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":13,\"type\":\"UnityEngine.Sprite,
+    UnityEngine.CoreModule\",\"isUnity\":true}"}'
+  unityArrayValues:
+  - {fileID: 21300000, guid: aca7686762cb804438f785407f6fb96a, type: 3}
+  - {fileID: 21300000, guid: 03eb97bf1ee90c94eb75574ff1a80627, type: 3}
+  - {fileID: 21300000, guid: 35c93a4462983914faba648f709ca87d, type: 3}
+  - {fileID: 21300000, guid: 3a89acbc7f7f6494590b918525d98dd0, type: 3}
+  - {fileID: 21300000, guid: bd117af545b3860409b5083f1dee994c, type: 3}
+  - {fileID: 21300000, guid: 526eecf0f3ae4954a8d41ddae665ebfa, type: 3}
+  - {fileID: 21300000, guid: b27662d0c66820e49bd9dd2e58e8a838, type: 3}
+  - {fileID: 21300000, guid: e5f1cc25ebc615645a7f4191137b8d8c, type: 3}
+  - {fileID: 21300000, guid: e6ebabd2fa16fa54cb64c79bdf7fe7f5, type: 3}
+  - {fileID: 21300000, guid: f39c3b4ce88aed94eb49c1147c16a1a9, type: 3}
+  - {fileID: 21300000, guid: 9e094e7198e66e543a7045a0cae89ae8, type: 3}
+  - {fileID: 21300000, guid: 468edce1d17755642956edf5c76ba49b, type: 3}
+  - {fileID: 21300000, guid: f91faf8d5311520429a0aefe6e4760b1, type: 3}
+  arrayValues:
+  - Original
+  - Chipmunk
+  - Uncle
+  - Echo
+  - Deep Voice
+  - Robot
+  - Dialect
+  - Megaphone
+  - Beast
+  - Machine
+  - Strong Current
+  - Kid
+  - Hedgehog
+  script: {fileID: 4458252877524076426, guid: 7484eede33cf5b7439e5b0a196e4474a, type: 3}

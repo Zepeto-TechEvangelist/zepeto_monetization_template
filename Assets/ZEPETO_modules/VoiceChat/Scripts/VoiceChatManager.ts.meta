@@ -1,0 +1,77 @@
+fileFormatVersion: 2
+guid: 5338584f864033d4abd61b005e167f1d
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    ZEPETO_Voice_Chat_1 = require(\"ZEPETO.Voice.Chat\");\r\nconst VoiceModeScriptObjectDef_1
+    = require(\"./VoiceModeScriptObjectDef\");\r\nclass VoiceChatManager extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this._myCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n           
+    this.setupVoicePanel();\r\n            this.setupVoiceButtons();\r\n        });\r\n       
+    // Method called when the Voice Chat system is initialized\r\n        ZEPETO_Voice_Chat_1.VoiceChatController.OnInitializedEvent.AddListener(init
+    => {\r\n            ZEPETO_Voice_Chat_1.VoiceChatController.EnterRoom(new ZEPETO_Voice_Chat_1.RoomProperty());\r\n       
+    });\r\n        // Method called when the Voice Chat room is connected\r\n       
+    ZEPETO_Voice_Chat_1.VoiceChatController.OnRoomConnectedEvent.AddListener(connected
+    => {\r\n            // Set the initial voice type and activate loopback\r\n           
+    ZEPETO_Voice_Chat_1.VoiceChatController.SetVoiceType(this._voiceTypes[0]);\r\n           
+    ZEPETO_Voice_Chat_1.VoiceChatController.EnableLoopback(this._enableLoopback);\r\n       
+    });\r\n    }\r\n    // Set the voice panel UI\r\n    setupVoicePanel() {\r\n       
+    this._openButton.onClick.AddListener(() => {\r\n            this._voicePanel.SetActive(true);\r\n           
+    var image = this._openButton.GetComponent($typeof(UnityEngine_UI_1.Image));\r\n           
+    if (image != null) {\r\n                image.color = new UnityEngine_1.Color(1.0,
+    1.0, 0.0);\r\n            }\r\n        });\r\n        this._closeButton.onClick.AddListener(()
+    => {\r\n            this._voicePanel.SetActive(false);\r\n            var image
+    = this._openButton.GetComponent($typeof(UnityEngine_UI_1.Image));\r\n           
+    if (image != null) {\r\n                image.color = new UnityEngine_1.Color(1.0,
+    1.0, 1.0);\r\n            }\r\n        });\r\n    }\r\n    // Set the voice type
+    and button prefab corresponding to the clicked button index\r\n    setupVoiceButtons()
+    {\r\n        this._voiceTypes.forEach((voiceType, index) => {\r\n           
+    const btn = UnityEngine_1.Object.Instantiate(this._buttonTemplate, this._scrollViewContent.transform);\r\n           
+    const buttonComponent = btn.GetComponent($typeof(UnityEngine_UI_1.Button));\r\n           
+    if (buttonComponent != null) {\r\n                buttonComponent.onClick.AddListener(()
+    => {\r\n                    ZEPETO_Voice_Chat_1.VoiceChatController.SetVoiceType(voiceType);\r\n               
+    });\r\n            }\r\n            else {\r\n                console.log(\"Voice
+    Button instantiation failed.\");\r\n            }\r\n            const textComponent
+    = btn.transform.Find(\"Text\").GetComponent($typeof(UnityEngine_UI_1.Text));\r\n           
+    if (textComponent != null) {\r\n                textComponent.text = this._voiceModeData.get_Item(\"description\")[voiceType];\r\n           
+    }\r\n            const imageComponent = btn.transform.Find(\"Image\").GetComponent($typeof(UnityEngine_UI_1.Image));\r\n           
+    if (imageComponent != null) {\r\n                imageComponent.sprite = this._voiceModeData.get_Item(\"img\")[voiceType];\r\n           
+    }\r\n        });\r\n    }\r\n    // Method to exit the Voice Chat room\r\n   
+    OnDestroy() {\r\n        ZEPETO_Voice_Chat_1.VoiceChatController.OnInitializedEvent.RemoveAllListeners();\r\n       
+    ZEPETO_Voice_Chat_1.VoiceChatController.OnRoomConnectedEvent.RemoveAllListeners();\r\n   
+    }\r\n}\r\nexports.default = VoiceChatManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVm9pY2VDaGF0TWFuYWdlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlZvaWNlQ2hhdE1hbmFnZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBOEU7QUFDOUUsNkVBQTZFO0FBQzdFLDZDQUF3RDtBQUN4RCxtREFBcUQ7QUFDckQseURBQWlGO0FBQ2pGLHlFQUFrRTtBQUVsRSxNQUFxQixnQkFBaUIsU0FBUSxxQ0FBcUI7SUFxQi9ELEtBQUs7UUFDRCwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELElBQUksQ0FBQyxZQUFZLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7WUFDOUUsSUFBSSxDQUFDLGVBQWUsRUFBRSxDQUFDO1lBQ3ZCLElBQUksQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO1FBQzdCLENBQUMsQ0FBQyxDQUFDO1FBRUgsMERBQTBEO1FBQzFELHVDQUFtQixDQUFDLGtCQUFrQixDQUFDLFdBQVcsQ0FDOUMsSUFBSSxDQUFDLEVBQUU7WUFDSCx1Q0FBbUIsQ0FBQyxTQUFTLENBQUMsSUFBSSxnQ0FBWSxFQUFFLENBQUMsQ0FBQztRQUN0RCxDQUFDLENBQ0osQ0FBQztRQUVGLHNEQUFzRDtRQUN0RCx1Q0FBbUIsQ0FBQyxvQkFBb0IsQ0FBQyxXQUFXLENBQ2hELFNBQVMsQ0FBQyxFQUFFO1lBQ1IsbURBQW1EO1lBQ25ELHVDQUFtQixDQUFDLFlBQVksQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUM7WUFDdEQsdUNBQW1CLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQztRQUM3RCxDQUFDLENBQ0osQ0FBQztJQUVOLENBQUM7SUFFRCx5QkFBeUI7SUFDakIsZUFBZTtRQUNuQixJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMs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","assetPath":"Assets/ZEPETO_modules/VoiceChat/Scripts/VoiceChatManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.UI","name":"_openButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Button
+    to open the VoiceMode panel.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_closeButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Button
+    to close the VoiceMode panel.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_voicePanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    VoiceMode panel.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_enableLoopback","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Enable
+    the loop-back feature, which allows you to hear your own voice.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.Voice.Chat","name":"_voiceTypes","type":"ZEPETO.Voice.Chat.VoiceType[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Add
+    the desired voice modes in a list format. Original=0, Chipmunk=1, Uncle=2, Echo=3,
+    DeepVoice=4, Robot=5, Dialect=6, Megaphone=7, Beast=8, Machine=9, StrongCurrent=10,
+    Kid=11, Hedgehog=12 \""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.Script","name":"_voiceModeData","type":"ZEPETO.Script.ZepetoScriptableObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Connects
+    to a ScriptableObject where VoiceMode data is stored.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_scrollViewContent","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Assign
+    the ScrollView where the VoiceMode buttons will be placed.\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_buttonTemplate","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Assign
+    the VoiceMode button prefab template.\""]},{"name":"SerializeField","args":[]}]}],"name":"VoiceChatManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: d43128a34df5a1d866b05f1e993eddc8
+  onlyWriteTrigger: 0

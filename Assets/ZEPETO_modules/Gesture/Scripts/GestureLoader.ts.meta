@@ -1,0 +1,117 @@
+fileFormatVersion: 2
+guid: 956de2558fee74a0fa08a9adb2f63a37
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_World_1 = require(\"ZEPETO.World\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst Thumbnail_1 = require(\"./Thumbnail\");\r\nclass
+    GestureLoader extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.contents = [];\r\n        this.thumbnails
+    = [];\r\n        this._loadContentsCount = 100;\r\n    }\r\n    Start() {\r\n       
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            // In order to take a thumbnail with my character, You need
+    to request the content after the character is created.\r\n            this._myCharacter
+    = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n           
+    this.ContentRequest();\r\n            // If click the close button, cancel the
+    gesture\r\n            this._closeButton.onClick.AddListener(() => {\r\n               
+    this.StopGesture();\r\n            });\r\n        });\r\n        // UI Listener\r\n       
+    this._typeToggleGroup[0].onValueChanged.AddListener(() => {\r\n            this.SetCategoryUI(ZEPETO_World_1.OfficialContentType.All);\r\n       
+    });\r\n        this._typeToggleGroup[1].onValueChanged.AddListener(() => {\r\n           
+    this.SetCategoryUI(ZEPETO_World_1.OfficialContentType.Gesture);\r\n        });\r\n       
+    this._typeToggleGroup[2].onValueChanged.AddListener(() => {\r\n            this.SetCategoryUI(ZEPETO_World_1.OfficialContentType.Pose);\r\n       
+    });\r\n        this._typeToggleGroup[3].onValueChanged.AddListener(() => {\r\n           
+    this.SetCategoryUI(ZEPETO_World_1.OfficialContentType.GestureDancing);\r\n       
+    });\r\n    }\r\n    // 1. Receive content from the server\r\n    ContentRequest()
+    {\r\n        // All Type Request\r\n        ZEPETO_World_1.ZepetoWorldContent.RequestOfficialContentList(ZEPETO_World_1.OfficialContentType.All,
+    contents => {\r\n            this.contents = contents;\r\n            for (let
+    i = 0; i < this._loadContentsCount; i++) {\r\n                if (!this.contents[i].IsDownloadedThumbnail)
+    {\r\n                    // Take a thumbnail photo using my character\r\n                   
+    this.contents[i].DownloadThumbnail(this._myCharacter, () => {\r\n                       
+    this.CreateThumbnailObjcet(this.contents[i]);\r\n                    });\r\n               
+    }\r\n                else {\r\n                    this.CreateThumbnailObjcet(this.contents[i]);\r\n               
+    }\r\n            }\r\n        });\r\n    }\r\n    // 2. Creating Thumbnail Objects\r\n   
+    CreateThumbnailObjcet(content) {\r\n        const newThumb = UnityEngine_1.GameObject.Instantiate(this._prefThumb,
+    this._contentsParent);\r\n        newThumb.GetComponent($typeof(Thumbnail_1.default)).content
+    = content;\r\n        // Button Listener for each thumbnail\r\n        newThumb.GetComponent($typeof(UnityEngine_UI_1.Button)).onClick.AddListener(()
+    => {\r\n            this.LoadAnimation(content);\r\n        });\r\n        this.thumbnails.push(newThumb);\r\n   
+    }\r\n    // 3. Loading Animation\r\n    LoadAnimation(content) {\r\n        //
+    Verify animation load\r\n        if (!content.IsDownloadedAnimation) {\r\n           
+    // If the animation has not been downloaded, download it.\r\n            content.DownloadAnimation(()
+    => {\r\n                // play animation clip\r\n                this.runAnimation(content.AnimationClip,
+    content.Keywords);\r\n            });\r\n        }\r\n        else {\r\n           
+    this.runAnimation(content.AnimationClip, content.Keywords);\r\n        }\r\n   
+    }\r\n    // A function to run an animation, \r\n    runAnimation(animation, gestureType)
+    {\r\n        //if there is another gesture/pose coroutine running, stop the coroutine
+    and cancel the gesture/pose\r\n        if (this.gestureCoroutine) {\r\n           
+    this.StopCoroutine(this.gestureCoroutine);\r\n        }\r\n        //Reset the
+    animator speed to 1\r\n        this._myCharacter.ZepetoAnimator.speed = 1;\r\n       
+    this._myCharacter.CancelGesture();\r\n        // In case the gesture is not a
+    pose.\r\n        if (this._isNotAPose(gestureType)) {\r\n            //checks
+    if the looping feature is enable for the gestures that are not poses and start
+    a coroutine.\r\n            if (this.loopEnabled) {\r\n                this.gestureCoroutine
+    = this.StartCoroutine(this.setGestureLoop(animation));\r\n            }\r\n           
+    // When the looping is not enabled\r\n            else {\r\n                this._myCharacter.SetGesture(animation);\r\n           
+    }\r\n        }\r\n        // In case the gesture is a pose\r\n        else {\r\n           
+    //activate the pose\r\n            this._poseIsRunning = true;\r\n           
+    this.gestureCoroutine = this.StartCoroutine(this.setPose(animation));\r\n       
+    }\r\n    }\r\n    //This function checks if the selected gesture is not a pose.\r\n   
+    _isNotAPose(gestureType) {\r\n        return gestureType.every(item => item !==
+    ZEPETO_World_1.OfficialContentType.Pose && item !== ZEPETO_World_1.OfficialContentType.GesturePose);\r\n   
+    }\r\n    // A coroutine for running the Gesture in loop\r\n    *setGestureLoop(animation)
+    {\r\n        while (true) {\r\n            if (this._myCharacter.CurrentState
+    === ZEPETO_Character_Controller_1.CharacterState.Idle && animation) {\r\n               
+    this._myCharacter.SetGesture(animation);\r\n                yield new UnityEngine_1.WaitForSeconds(animation.length
+    + this._loopInterval);\r\n            }\r\n            else {\r\n               
+    yield null;\r\n            }\r\n        }\r\n    }\r\n    // This function runs
+    the Gesture Pose \r\n    *setPose(animation) {\r\n        while (true) {\r\n           
+    //Checks if the pose is activated\r\n            if (this._poseIsRunning) {\r\n               
+    // Run the animation\r\n                this._myCharacter.SetGesture(animation);\r\n               
+    //Stop the animation and wait for a few seconds ( the number of seconds to wait
+    is set by posingInterval)\r\n                this._myCharacter.ZepetoAnimator.speed
+    = 0;\r\n                yield new UnityEngine_1.WaitForSeconds(this._duration);\r\n               
+    this._poseIsRunning = false;\r\n                this._myCharacter.ZepetoAnimator.speed
+    = 1;\r\n                this._myCharacter.CancelGesture();\r\n            }\r\n           
+    else {\r\n                yield null;\r\n            }\r\n        }\r\n    }\r\n   
+    // Category Toggle UI Set\r\n    SetCategoryUI(category) {\r\n        if (category
+    == ZEPETO_World_1.OfficialContentType.All) {\r\n            this.thumbnails.forEach((Obj)
+    => {\r\n                Obj.SetActive(true);\r\n            });\r\n        }\r\n       
+    else {\r\n            for (let i = 0; i < this.thumbnails.length; i++) {\r\n               
+    const content = this.thumbnails[i].GetComponent($typeof(Thumbnail_1.default)).content;\r\n               
+    if (content.Keywords.includes(category)) {\r\n                    this.thumbnails[i].SetActive(true);\r\n               
+    }\r\n                else {\r\n                    this.thumbnails[i].SetActive(false);\r\n               
+    }\r\n            }\r\n        }\r\n    }\r\n    //This function initialize the
+    ZepetoScreenTouchPad event listener\r\n    InitScreenTouchPadListener(ScreenTouchpad)
+    {\r\n        ScreenTouchpad.OnPointerDownEvent.AddListener(() => {\r\n           
+    this._myCharacter.CancelGesture();\r\n        });\r\n    }\r\n    StopGesture()
+    {\r\n        //If there is a gesture coroutine stop it.\r\n        if (this.gestureCoroutine)
+    {\r\n            this.StopCoroutine(this.gestureCoroutine);\r\n        }\r\n       
+    this._myCharacter.ZepetoAnimator.speed = 1;\r\n        this._myCharacter.CancelGesture();\r\n   
+    }\r\n}\r\nexports.default = GestureLoader;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2VzdHVyZUxvYWRlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkdlc3R1cmVMb2FkZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBc0Q7QUFDdEQsNkVBQWdJO0FBQ2hJLCtDQUFnRjtBQUNoRixtREFBZ0Q7QUFDaEQsNkNBQXNHO0FBQ3RHLDJDQUFvQztBQUVwQyxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBQWhFOztRQUU4QixhQUFRLEdBQWMsRUFBRSxDQUFDO1FBQ3pCLGVBQVUsR0FBaUIsRUFBRSxDQUFDO1FBRzlCLHVCQUFrQixHQUFXLEdBQUcsQ0FBQztJQStML0QsQ0FBQztJQTVLRyxLQUFLO1FBQ0QsMkNBQWEsQ0FBQyxRQUFRLENBQUMsa0JBQWtCLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUN2RCxrSEFBa0g7WUFDbEgsSUFBSSxDQUFDLFlBQVksR0FBRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQztZQUM5RSxJQUFJLENBQUMsY0FBYyxFQUFFLENBQUM7WUFFdEIsZ0RBQWdEO1lBQ2hELElBQUksQ0FBQyxZQUFZLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7Z0JBQ3ZDLElBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQztZQUN2QixDQUFDLENBQUMsQ0FBQztRQUNQLENBQUMsQ0FBQyxDQUFDO1FBRUgsY0FBYztRQUNkLElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDLENBQUMsQ0FBQyxjQUFjLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUNyRCxJQUFJLENBQUMsYUFBYSxDQUFDLGtDQUFtQixDQUFDLEdBQUcsQ0FBQyxDQUFDO1FBQ2hELENBQUMsQ0FBQyxDQUFDO1FBQ0gsSUFBSSxDQUFDLGdCQUFnQixDQUFDLENBQUMsQ0FBQyxDQUFDLGNBQWMsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3JELElBQUksQ0FBQyxhQUFhLENB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","assetPath":"Assets/ZEPETO_modules/Gesture/Scripts/GestureLoader.ts","manifest":{"properties":[{"assembly":"ZEPETO.World","name":"contents","type":"ZEPETO.World.Content[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"thumbnails","type":"UnityEngine.GameObject[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"gestureCoroutine","type":"UnityEngine.Coroutine","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"_loadContentsCount","type":"System.Single","isArray":false,"initValue":["100"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_contentsParent","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_prefThumb","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_closeButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_typeToggleGroup","type":"UnityEngine.UI.Toggle[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"loopEnabled","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Playback
+    Settings\""]},{"name":"Header","args":["\"Gesture\""]},{"name":"Tooltip","args":["\"Activate/Deactivate
+    the looping feature\""]}]},{"assembly":"mscorlib","name":"_loopInterval","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Waiting
+    time in seconds before playing\""]},{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Pose\""]},{"name":"Tooltip","args":["\"Pose
+    duration in seconds\""]},{"name":"SerializeField","args":[]}]}],"name":"GestureLoader","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 579e68af2d60c98ba2a598a0a0cddf6b
+  onlyWriteTrigger: 0

@@ -1,0 +1,101 @@
+fileFormatVersion: 2
+guid: 659d30a8931d544058690c1f2cec0ccf
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    UnityEngine_UI_1 = require(\\\"UnityEngine.UI\\\");\\r\\nconst ZEPETO_Module_Shop_1
+    = require(\\\"ZEPETO.Module.Shop\\\");\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
+    ZEPETO_World_1 = require(\\\"ZEPETO.World\\\");\\r\\nconst PlayerSync_1 = require(\\\"../../Zepeto
+    Multiplay Component/ZepetoScript/Player/PlayerSync\\\");\\r\\nconst UnityEngine
+    = require(\\\"UnityEngine\\\");\\r\\nconst InteractionIcon_1 = require(\\\"../../ZEPETO_modules/Interaction/Scripts/InteractionIcon\\\");\\r\\nclass
+    GiftManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor()
+    {\\r\\n        super(...arguments);\\r\\n        this.currentUserListObject =
+    new Map;\\r\\n    }\\r\\n    Start() {\\r\\n        this.interactionIcon = this.GetComponent($typeof(InteractionIcon_1.default));\\r\\n       
+    this.interactionIcon.OnClickEvent.AddListener(() => {\\r\\n            this.interactionIcon.HideIcon();\\r\\n           
+    this.StartCoroutine(this.CoCheckAndBuildUserList());\\r\\n            this.popupGift.SetActive(true);\\r\\n       
+    });\\r\\n        this.buttonClose.onClick.AddListener(() => {\\r\\n           
+    this.interactionIcon.ShowIcon();\\r\\n        });\\r\\n        this.StartCoroutine(this.DownloadItemTexture());\\r\\n   
+    }\\r\\n    *CoCheckAndBuildUserList() {\\r\\n        // const players = Object.FindObjectsOfType<PlayerSync>();\\r\\n       
+    // const existingUsers = new Set<string>(this.currentUserListObject.keys());\\r\\n       
+    // for (const player of players) {\\r\\n        //     if (WorldService.userId
+    != player.player.zepetoUserId && !this.currentUserListObject.has(player.player.zepetoUserId))
+    {\\r\\n        //         const newGameObject = GameObject.Instantiate(this.userListPrefab,
+    this.scrollObject.transform) as GameObject;\\r\\n        //         this.SetUserInfo(newGameObject,
+    player.player.zepetoUserId);\\r\\n        //         this.currentUserListObject.set(player.player.zepetoUserId,
+    newGameObject);\\r\\n        //         this.imageEmpty.SetActive(false);\\r\\n       
+    //     }\\r\\n        //     // \uCC98\uB9AC\uB41C \uC720\uC800\uB294 \uC14B\uC5D0\uC11C
+    \uC81C\uAC70\\r\\n        //     existingUsers.delete(player.player.zepetoUserId);\\r\\n       
+    // }\\r\\n        // // players \uBC30\uC5F4\uC5D0 \uC5C6\uB294 \uC720\uC800\uB4E4\uC744
+    \uB9F5\uC5D0\uC11C \uC81C\uAC70\\r\\n        // for (const userId of existingUsers)
+    {\\r\\n        //     Object.Destroy(this.currentUserListObject.get(userId));\\r\\n       
+    // }\\r\\n        // if(this.scrollObject.transform.childCount == 0){\\r\\n       
+    //     this.imageEmpty.SetActive(true);\\r\\n        // }else{\\r\\n        //    
+    this.imageEmpty.SetActive(false);\\r\\n        // }\\r\\n        this.currentUserListObject.forEach(e
+    => {\\r\\n            UnityEngine_1.Object.Destroy(e);\\r\\n        });\\r\\n       
+    const players = UnityEngine_1.Object.FindObjectsOfType($typeof(PlayerSync_1.default));\\r\\n       
+    this.currentUserListObject = new Map();\\r\\n        for (const player of players)
+    {\\r\\n            if (ZEPETO_World_1.WorldService.userId != player.player.zepetoUserId
+    && !this.currentUserListObject.has(player.player.zepetoUserId)) {\\r\\n               
+    const newGameObject = UnityEngine_1.GameObject.Instantiate(this.userListPrefab,
+    this.scrollObject.transform);\\r\\n                this.SetUserInfo(newGameObject,
+    player.player.zepetoUserId);\\r\\n                this.currentUserListObject.set(player.player.zepetoUserId,
+    newGameObject);\\r\\n                this.imageEmpty.SetActive(false);\\r\\n           
+    }\\r\\n        }\\r\\n        yield null;\\r\\n        if (this.scrollObject.transform.childCount
+    == 0) {\\r\\n            this.imageEmpty.SetActive(true);\\r\\n        }\\r\\n       
+    else {\\r\\n            this.imageEmpty.SetActive(false);\\r\\n        }\\r\\n   
+    }\\r\\n    SetUserInfo(userObject, userId) {\\r\\n        const text = userObject.GetComponentsInChildren($typeof(UnityEngine_UI_1.Text));\\r\\n       
+    text.forEach(e => {\\r\\n            if (e.name == \\\"TextUserName\\\") {\\r\\n               
+    this.GetUserName(userId, e);\\r\\n            }\\r\\n        });\\r\\n       
+    const profileImages = userObject.GetComponentsInChildren($typeof(UnityEngine_UI_1.Image));\\r\\n       
+    profileImages.forEach(e => {\\r\\n            if (e.name == \\\"ProfileImage\\\")
+    {\\r\\n                this.GetProfileTexture(userId, e);\\r\\n            }\\r\\n       
+    });\\r\\n        const btn = userObject.GetComponentInChildren($typeof(UnityEngine_UI_1.Button));\\r\\n       
+    btn.onClick.AddListener(() => {\\r\\n            this.OnClickSendGift(userId,
+    this.itemId);\\r\\n        });\\r\\n    }\\r\\n    GetUserName(userId, text)
+    {\\r\\n        const ids = [userId];\\r\\n        ZEPETO_World_1.ZepetoWorldHelper.GetUserInfo(ids,
+    (info) => {\\r\\n            for (let i = 0; i < info.length; i++) {\\r\\n               
+    text.text = info[i].name;\\r\\n                //console.log(`userId : ${info[i].userOid},
+    name : ${info[i].name}, zepetoId : ${info[i].zepetoId}`);\\r\\n            }\\r\\n       
+    }, (error) => {\\r\\n            console.log(error);\\r\\n        });\\r\\n   
+    }\\r\\n    GetProfileTexture(userId, image) {\\r\\n        ZEPETO_World_1.ZepetoWorldHelper.GetProfileTexture(userId,
+    (texture) => {\\r\\n            image.sprite = this.GetSprite(texture);\\r\\n       
+    }, (error) => {\\r\\n            console.log(error);\\r\\n        });\\r\\n   
+    }\\r\\n    GetSprite(texture) {\\r\\n        let rect = new UnityEngine_1.Rect(0,
+    0, texture.width, texture.height);\\r\\n        return UnityEngine_1.Sprite.Create(texture,
+    rect, new UnityEngine_1.Vector2(0.5, 0.5));\\r\\n    }\\r\\n    OnClickSendGift(userId,
+    itemId) {\\r\\n        ZEPETO_Module_Shop_1.ShopService.ShowGiftPopup(itemId,
+    userId, ZEPETO_Module_Shop_1.GiftBackgroundType.Type01, \\\"Hi This is for you!\\\",
+    (response) => {\\r\\n            console.log(`Gift sent successfully! ZEPETO
+    Coin Balance ${response.coin}, ZEM Balance ${response.zem}`);\\r\\n        },
+    (error) => {\\r\\n            console.error(\\\"Error sending gift:\\\", error);\\r\\n       
+    });\\r\\n    }\\r\\n    *DownloadItemTexture() {\\r\\n        // Download thumbnail
+    texture for the specified item code\\r\\n        var request = ZEPETO_Module_Shop_1.ShopService.DownloadItemThumbnail(this.itemId);\\r\\n       
+    yield new UnityEngine.WaitUntil(() => request.keepWaiting == false);\\r\\n       
+    if (request.responseData.isSuccess) {\\r\\n            this.ItemImage.texture
+    = request.responseData.texture;\\r\\n        }\\r\\n    }\\r\\n}\\r\\nexports.default
+    = GiftManager;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2lmdE1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHaWZ0TWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUE0RjtBQUM1RixtREFBK0Q7QUFFL0QsMkRBQXVGO0FBQ3ZGLGlEQUFxRDtBQUNyRCwrQ0FBc0U7QUFDdEUsZ0dBQXlGO0FBQ3pGLDJDQUEyQztBQUMzQyw4RkFBdUY7QUFFdkYsTUFBcUIsV0FBWSxTQUFRLHFDQUFxQjtJQUE5RDs7UUFhWSwwQkFBcUIsR0FBNEIsSUFBSSxHQUF1QixDQUFDO0lBK0l6RixDQUFDO0lBNUlHLEtBQUs7UUFDRCxJQUFJLENBQUMsZUFBZSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMseUJBQWUsRUFBRyxDQUFDO1FBRTVELElBQUksQ0FBQyxlQUFlLENBQUMsWUFBWSxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDL0MsSUFBSSxDQUFDLGVBQWUsQ0FBQyxRQUFRLEVBQUUsQ0FBQztZQUNoQyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyx1QkFBdUIsRUFBRSxDQUFDLENBQUM7WUFDcEQsSUFBSSxDQUFDLFNBQVMsQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUM7UUFDbkMsQ0FBQyxDQUFDLENBQUM7UUFFSCxJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3RDLElBQUksQ0FBQyxlQUFlLENBQUMsUUFBUSxFQUFFLENBQUM7UUFDcEMsQ0FBQyxDQUFDLENBQUM7UUFFSCxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxtQkFBbUIsRUFBRSxDQUFDLENBQUM7SUFDcEQsQ0FBQztJQUVELENBQUMsdUJBQXVCO1FBRXBCLDBEQUEwRDtRQUMxRCw0RUFBNEU7UUFDNUUsa0NBQWtDO1FBQ2xDLDhIQUE4SDtRQUM5SCx3SEFBd0g7UUFDeEgsdUVBQXVFO1FBQ3ZFLHFGQUFxRjtRQUNyRiw0Q0FBNEM7UUFD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\",\"assetPath\":\"Assets/Template_Resources/Scripts/GiftManager.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"itemId\",\"type\":\"System.String\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"Header\",\"args\":[\"\\\"Gift
+    Information\\\"\"]}]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"popupGift\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"Header\",\"args\":[\"\\\"Gift
+    Popup UI\\\"\"]}]},{\"assembly\":\"UnityEngine.UI\",\"name\":\"ItemImage\",\"type\":\"UnityEngine.UI.RawImage\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"scrollObject\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"userListPrefab\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"imageEmpty\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.UI\",\"name\":\"buttonClose\",\"type\":\"UnityEngine.UI.Button\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"GiftManager\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 8d0e5ba60e63d930531f5b71a008a898
+  onlyWriteTrigger: 0

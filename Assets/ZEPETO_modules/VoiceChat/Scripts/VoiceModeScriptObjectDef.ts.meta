@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 7484eede33cf5b7439e5b0a196e4474a
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nclass VoiceModeScriptObjectDef {\r\n}\r\nexports.default
+    = VoiceModeScriptObjectDef;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVm9pY2VNb2RlU2NyaXB0T2JqZWN0RGVmLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiVm9pY2VNb2RlU2NyaXB0T2JqZWN0RGVmLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUEsTUFBcUIsd0JBQXdCO0NBRzVDO0FBSEQsMkNBR0MifQ==","assetPath":"Assets/ZEPETO_modules/VoiceChat/Scripts/VoiceModeScriptObjectDef.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"description","type":"System.String[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"img","type":"UnityEngine.Sprite[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"VoiceModeScriptObjectDef","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: c967e49efb8e072c56ac6be4843dfe03
+  onlyWriteTrigger: 0

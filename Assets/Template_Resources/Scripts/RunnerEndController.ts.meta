@@ -1,0 +1,39 @@
+fileFormatVersion: 2
+guid: b62a00994c66d47ba8ef5ff7541f2b25
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst __UnityEngine__ = require(\"UnityEngine\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    RunnerPlayerManager_1 = require(\"./RunnerPlayerManager\");\r\nclass RunnerEndController
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start() {\r\n        this.runnerPlayerManager
+    = RunnerPlayerManager_1.default.Instance;\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        if (RunnerPlayerManager_1.default.Instance.LocalCharacter == null
+    || __UnityEngine__.Object.op_Inequality(collider.gameObject, RunnerPlayerManager_1.default.Instance.LocalCharacter.gameObject))
+    {\r\n            return;\r\n        }\r\n        else {\r\n            this.runnerPlayerManager.RunnerClear();\r\n           
+    this.StartCoroutine(this.CoActiveConfetti());\r\n        }\r\n    }\r\n    *CoActiveConfetti()
+    {\r\n        this.effect.SetActive(true);\r\n        yield new UnityEngine_1.WaitForSeconds(5);\r\n       
+    this.effect.SetActive(false);\r\n    }\r\n}\r\nexports.default = RunnerEndController;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUnVubmVyRW5kQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlJ1bm5lckVuZENvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsNkNBQW1HO0FBQ25HLGlEQUFzRDtBQUN0RCwrREFBd0Q7QUFFeEQsTUFBcUIsbUJBQW9CLFNBQVEscUNBQXFCO0lBS2xFLEtBQUs7UUFDRCxJQUFJLENBQUMsbUJBQW1CLEdBQUcsNkJBQW1CLENBQUMsUUFBUSxDQUFDO0lBQzVELENBQUM7SUFFRCxjQUFjLENBQUMsUUFBa0I7UUFFN0IsSUFBSSw2QkFBbUIsQ0FBQyxRQUFRLENBQUMsY0FBYyxJQUFJLElBQUksMkJBY2t3cEIsYUFBYyxDQWQ1d3BCLFFBQVEsQ0FBQyxVQUFVLEVBQUksNkJBQW1CLENBQUMsUUFBUSxDQUFDLGNBQWMsQ0FBQyxVQUFVLENBQUEsRUFBRTtZQUN0SSxPQUFPO1NBQ1Y7YUFBTTtZQUNILElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxXQUFXLEVBQUUsQ0FBQztZQUN2QyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDLENBQUM7U0FDaEQ7SUFDTCxDQUFDO0lBQ0QsQ0FBQyxnQkFBZ0I7UUFDYixJQUFJLENBQUMsTUFBTSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUM1QixNQUFNLElBQUksNEJBQWMsQ0FBQyxDQUFDLENBQUMsQ0FBQztRQUM1QixJQUFJLENBQUMsTUFBTSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUNqQyxDQUFDO0NBR0o7QUF6QkQsc0NBeUJDIn0=","assetPath":"Assets/Template_Resources/Scripts/RunnerEndController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"effect","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"RunnerEndController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 45ee670e372afe6ba87bb49f50c0224a
+  onlyWriteTrigger: 0

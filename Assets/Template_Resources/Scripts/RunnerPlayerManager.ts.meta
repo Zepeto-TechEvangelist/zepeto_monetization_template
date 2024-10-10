@@ -1,0 +1,211 @@
+fileFormatVersion: 2
+guid: b314d852284e44981a25ce2a971f2234
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst LeaderBoardManager_1 =
+    require(\"../../ZEPETO_modules/LeaderBoard/Scripts/LeaderBoardManager\");\r\nconst
+    UICommonBtn_1 = require(\"../../ZEPETO_modules/Product/Scripts/UICommonBtn\");\r\nconst
+    ZEPETO_Product_1 = require(\"ZEPETO.Product\");\r\nconst ZEPETO_World_1 = require(\"ZEPETO.World\");\r\nconst
+    ZEPETO_Multiplay_1 = require(\"ZEPETO.Multiplay\");\r\nconst ZEPETO_Inventory_1
+    = require(\"ZEPETO.Inventory\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nclass
+    RunnerPlayerManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.isRunning = false;\r\n       
+    this.isShieldTime = false;\r\n        this._productCache = new Map();\r\n       
+    this.lastSpawnPoint = UnityEngine_1.Vector3.zero;\r\n        this.score = 0;\r\n       
+    this.shieldCount = 0;\r\n        this.highJumpCount = 0;\r\n    }\r\n    get
+    LocalCharacter() { return this.localCharacter; }\r\n    static get Instance()
+    {\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Equality(this.instance,
+    null)) {\r\n            this.instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(RunnerPlayerManager));\r\n       
+    }\r\n        return this.instance;\r\n    }\r\n    Awake() {\r\n        if (RunnerPlayerManager.instance
+    !== null && RunnerPlayerManager.instance !== this) {\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
+    }\r\n        else {\r\n            RunnerPlayerManager.instance = this;\r\n           
+    UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\r\n        }\r\n   
+    }\r\n    Start() {\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.GetPlayerController();\r\n        });\r\n        this.starObjects
+    = this.starGroup.GetComponentsInChildren($typeof(UnityEngine_1.Transform));\r\n       
+    this.uiCommonBtn = UnityEngine_1.Object.FindObjectOfType($typeof(UICommonBtn_1.default));\r\n       
+    this._multiplay = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_World_1.ZepetoWorldMultiplay));\r\n       
+    this._multiplay.add_RoomJoined((room) => {\r\n            this._room = room;\r\n           
+    ZEPETO_Product_1.ProductService.OnPurchaseCompleted.AddListener((product, response)
+    => {\r\n                this.StartCoroutine(this.RefreshInventoryUI());\r\n           
+    });\r\n            this._room.AddMessageHandler(\"SyncInventories\", (message)
+    => {\r\n                this.StartCoroutine(this.RefreshInventoryUI());\r\n           
+    });\r\n        });\r\n        this.UIInitialize();\r\n    }\r\n    StartRunning()
+    {\r\n        this.score = 0;\r\n        this.lastSpawnPoint = this.startPoint.position;\r\n       
+    this.ActiveScoreCompoenet(true);\r\n        this.StartCoroutine(this.CoRunningStart());\r\n   
+    }\r\n    *CoRunningStart() {\r\n        this.isRunning = true;\r\n        if
+    (this.localPlayer == null) {\r\n            return;\r\n        }\r\n        else
+    {\r\n            this.CameraTransition();\r\n            yield new UnityEngine_1.WaitForSeconds(1);\r\n           
+    this.localCharacter.Teleport(UnityEngine_1.Vector3.op_Addition(this.startPoint.position,
+    new UnityEngine_1.Vector3(0, 2, 0)), UnityEngine_1.Quaternion.LookRotation(this.startPoint.forward));\r\n           
+    this.localCamera.cameraParent.rotation = UnityEngine_1.Quaternion.Euler(0, -90,
+    0);\r\n        }\r\n    }\r\n    CameraTransition() {\r\n        this.cameraAnimaiton.SetTrigger(\"start\");\r\n   
+    }\r\n    RunnerOver() {\r\n        //this.StopRunning();       \r\n        this.BackToStart();\r\n       
+    this.ResetStarGroup();\r\n        console.log(\"Runner over\");\r\n    }\r\n   
+    RunnerClear() {\r\n        this.StartCoroutine(this.CoRunnerClear());\r\n   
+    }\r\n    *CoRunnerClear() {\r\n        //yield new WaitForSeconds(0.25);\r\n       
+    this.ActivePlayerController(false);\r\n        this.OpenCongratulationsPopup();\r\n       
+    LeaderBoardManager_1.default.instance.SendScore(this.score);\r\n    }\r\n   
+    ResetStarGroup() {\r\n        this.starObjects.forEach(e => {\r\n           
+    e.gameObject.SetActive(true);\r\n        });\r\n    }\r\n    ActiveDoubleJump()
+    {\r\n        // Find an object of type ZepetoScreenButton in the scene\r\n       
+    const screenButton = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoScreenButton));\r\n       
+    // Add a listener for the OnPointDownEvent of the screen button to handle jump
+    actions\r\n        screenButton.OnPointDownEvent.AddListener(() => {\r\n           
+    // If the character''s current state is Jump, trigger a double jump\r\n           
+    if (this.localCharacter.CurrentState === ZEPETO_Character_Controller_1.CharacterState.Jump)
+    {\r\n                this.localCharacter.DoubleJump();\r\n            }\r\n       
+    });\r\n    }\r\n    GetPlayerController() {\r\n        this.ActiveDoubleJump();\r\n       
+    this.localPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer;\r\n       
+    this.localCharacter = this.localPlayer.zepetoPlayer.character;\r\n        this.anim
+    = this.localCharacter.ZepetoAnimator;\r\n        this.localCamera = this.localPlayer.zepetoCamera;\r\n       
+    this.zepetoPlayerControl = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoPlayerControl));\r\n       
+    this.zepetoScreenTouchPad = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoScreenTouchpad));\r\n       
+    this.uiZepetoPlayerController = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.UIZepetoPlayerControl));\r\n       
+    this.zepetoCameraSpeed = this.localCamera.rotationSpeed;\r\n        this.startJumpPower
+    = this.localCharacter.JumpPower;\r\n        this.LoadAllItems();\r\n        this.cameraAnimaiton
+    = this.localCamera.GetComponentInChildren($typeof(UnityEngine_1.Animator));\r\n   
+    }\r\n    LockPlayerCamera(isActive) {\r\n        if (isActive) {\r\n           
+    this.storeRotationSpeed = this.localCamera.rotationSpeed;\r\n            this.localCamera.rotationSpeed
+    = 0;\r\n        }\r\n        else {\r\n            this.localCamera.rotationSpeed
+    = this.storeRotationSpeed;\r\n        }\r\n    }\r\n    ActivePlayerController(isActive)
+    {\r\n        this.zepetoPlayerControl.gameObject.SetActive(isActive);\r\n       
+    this.zepetoScreenTouchPad.gameObject.SetActive(isActive);\r\n        this.uiZepetoPlayerController.gameObject.SetActive(isActive);\r\n       
+    this.uiZepetoPlayerController.StopMoving();\r\n        this.uiZepetoPlayerController.enabled
+    = isActive;\r\n    }\r\n    BackToStart() {\r\n        this.ActiveScoreCompoenet(false);\r\n       
+    this.ActivePlayerController(true);\r\n        this.LockPlayerCamera(false);\r\n       
+    this.localCharacter.Teleport(new UnityEngine_1.Vector3(0, 1, 0), UnityEngine_1.Quaternion.identity);\r\n   
+    }\r\n    Update() {\r\n        if (this.isRunning) {\r\n            this.CheckPlayerfall();\r\n       
+    }\r\n    }\r\n    CheckPlayerfall() {\r\n        if (this.localCharacter.CurrentState
+    == 108 && this.localCharacter.transform.position.y < -100 && this.isRunning ==
+    true) {\r\n            this.isRunning = false;\r\n            this.ActivePlayerController(false);\r\n           
+    this.CheckResurrectPrice(100);\r\n            console.log(\"CheckPlayerfall\");\r\n       
+    }\r\n    }\r\n    HitTrap() {\r\n        if (this.shieldCount > 0) {\r\n           
+    this.UseShield();\r\n        }\r\n        else if (this.shieldCount <= 0 && !this.isShieldTime)
+    {\r\n            this.CheckResurrectPrice(100);\r\n            console.log(\"HitTrap\");\r\n       
+    }\r\n    }\r\n    CheckResurrectPrice(resurrectPrice) {\r\n        this.ActivePlayerController(false);\r\n       
+    this.OpenResurrectPopup(resurrectPrice);\r\n        console.log(\"CheckResurrectCount\");\r\n   
+    }\r\n    UseResurrect() {\r\n        this.StartCoroutine(this.CoUseResurrect());\r\n   
+    }\r\n    *CoUseResurrect() {\r\n        console.log(\"CoUseResurrect()\");\r\n       
+    this.localCharacter.Teleport(UnityEngine_1.Vector3.op_Addition(this.lastSpawnPoint,
+    new UnityEngine_1.Vector3(0, 2, 0)), UnityEngine_1.Quaternion.LookRotation(this.startPoint.forward));\r\n       
+    this.StartCoroutine(this.CoActiveShield());\r\n        yield null;\r\n       
+    yield null;\r\n        this.ActivePlayerController(true);\r\n        this.isRunning
+    = true;\r\n    }\r\n    UseShield() {\r\n        if (!this.isShieldTime) {\r\n           
+    this.StartCoroutine(this.CoActiveShield());\r\n            if (this.shieldCount
+    > 0) {\r\n                this.OnClickUseInventoryItem(\"shield\");\r\n           
+    }\r\n            console.log(\"Use Shield\");\r\n        }\r\n    }\r\n    *CoActiveShield()
+    {\r\n        if (UnityEngine_1.Object.op_Equality(this.localPlayerShieldEffect,
+    null)) {\r\n            this.localPlayerShieldEffect = UnityEngine_1.GameObject.Instantiate(this.shieldEffect,
+    this.localCharacter.gameObject.transform);\r\n        }\r\n        this.isShieldTime
+    = true;\r\n        this.localPlayerShieldEffect.SetActive(true);\r\n        yield
+    new UnityEngine_1.WaitForSeconds(3);\r\n        this.isShieldTime = false;\r\n       
+    this.localPlayerShieldEffect.SetActive(false);\r\n    }\r\n    LobbyEnter() {\r\n       
+    this.isRunning = false;\r\n    }\r\n    AddScore() {\r\n        this.score +=
+    1;\r\n        this.UpdateScoreNumber();\r\n    }\r\n    UseHighJump() {\r\n       
+    if (this.currentHighJumpCoroutine != null || this.highJumpCount <= 0) {\r\n           
+    return;\r\n        }\r\n        this.currentHighJumpCoroutine = this.StartCoroutine(this.CoActiveHighJump());\r\n   
+    }\r\n    *CoActiveHighJump() {\r\n        this.localCharacter.additionalJumpPower
+    = this.startJumpPower;\r\n        let highJumpTime = this.doubleJumpTime;\r\n       
+    while (highJumpTime > 0) {\r\n            this.UpdateHighJumpGaze(highJumpTime
+    / this.doubleJumpTime);\r\n            highJumpTime -= UnityEngine_1.Time.deltaTime;\r\n           
+    yield null;\r\n        }\r\n        this.UpdateHighJumpGaze(0);\r\n        this.localCharacter.additionalJumpPower
+    = 0;\r\n        this.currentHighJumpCoroutine = null;\r\n    }\r\n    ActiveTrailEffect(isActive)
+    {\r\n        console.log(\"Active Trail\");\r\n        if (UnityEngine_1.Object.op_Equality(this.currentTrailEffect,
+    null)) {\r\n            this.currentTrailEffect = UnityEngine_1.GameObject.Instantiate(this.trailEffect,
+    this.localCharacter.gameObject.transform);\r\n        }\r\n        this.currentTrailEffect.SetActive(isActive);\r\n   
+    }\r\n    OnClickHighJump() {\r\n        if (this.highJumpCount > 0) {\r\n           
+    this.OnClickUseInventoryItem(\"highjump\");\r\n        }\r\n    }\r\n    AddShield()
+    {\r\n        this.uiCommonBtn.OnClickAddItem(\"shield\", 1);\r\n    }\r\n   
+    AddHighJump() {\r\n        this.uiCommonBtn.OnClickAddItem(\"highjump\", 1);\r\n   
+    }\r\n    AddResurrect() {\r\n        console.log(\"Add Resurrect\");\r\n    }\r\n   
+    AddStar() {\r\n        this.uiCommonBtn.OnClickGainBalance(\"star\", 1);\r\n   
+    }\r\n    LoadAllItems() {\r\n        this.StartCoroutine(this.CoLoadAllItems());\r\n   
+    }\r\n    *CoLoadAllItems() {\r\n        const request = ZEPETO_Product_1.ProductService.GetProductsAsync();\r\n       
+    yield new UnityEngine_1.WaitUntil(() => request.keepWaiting == false);\r\n       
+    if (request.responseData.isSuccess) {\r\n            request.responseData.products.forEach((pr)
+    => {\r\n                this._productCache.set(pr.productId, pr);\r\n           
+    });\r\n        }\r\n        this.StartCoroutine(this.RefreshInventoryUI());\r\n   
+    }\r\n    *RefreshInventoryUI() {\r\n        const request = ZEPETO_Inventory_1.InventoryService.GetListAsync();\r\n       
+    yield new UnityEngine_1.WaitUntil(() => request.keepWaiting == false);\r\n       
+    if (request.responseData.isSuccess) {\r\n            const items = request.responseData.products;\r\n           
+    this._inventoryCache = items;\r\n            items.forEach((ir) => {\r\n               
+    this.UpdateUI(ir.productId, ir.quantity);\r\n                console.log(`productID:
+    ${ir.productId}, quantity : ${ir.quantity}`);\r\n            });\r\n        }\r\n   
+    }\r\n    UpdateUI(productId, quantity) {\r\n        console.log(\"productId :
+    \" + productId + \"quantity : \" + quantity.toString());\r\n        switch (productId)
+    {\r\n            case \"shield\":\r\n                this.numerShield.text =
+    quantity.toString();\r\n                this.shieldCount = Number(quantity);\r\n               
+    break;\r\n            case \"highjump\":\r\n                this.numberHighJump.text
+    = quantity.toString();\r\n                this.highJumpCount = Number(quantity);\r\n               
+    break;\r\n            case \"resurrection_zem\":\r\n                if (quantity
+    > 0) {\r\n                    this.OnClickResurrect();\r\n                   
+    this.OnClickUseInventoryItem(\"resurrection_zem\");\r\n                }\r\n               
+    break;\r\n            case \"resurrection_star\":\r\n                if (quantity
+    > 0) {\r\n                    this.OnClickResurrect();\r\n                   
+    this.OnClickUseInventoryItem(\"resurrection_star\");\r\n                }\r\n               
+    break;\r\n            case \"trail\":\r\n                if (quantity > 0) {\r\n                   
+    this.ActiveTrailEffect(true);\r\n                }\r\n                break;\r\n       
+    }\r\n    }\r\n    OnClickUseInventoryItem(itemId) {\r\n        const item = this._productCache.get(itemId);\r\n       
+    if (item == null) {\r\n            console.warn(\"no have item data\");\r\n           
+    return;\r\n        }\r\n        if (this._multiplay.Room == null) {\r\n           
+    console.warn(\"server disconnect\");\r\n            return;\r\n        }\r\n       
+    const data = new ZEPETO_Multiplay_1.RoomData();\r\n        data.Add(\"productId\",
+    item.productId);\r\n        data.Add(\"quantity\", 1);\r\n        this._multiplay.Room?.Send(\"onUseInventory\",
+    data.GetObject());\r\n    }\r\n    UIInitialize() {\r\n        this.buttonRessurectNo.onClick.AddListener(()
+    => {\r\n            this.OnClickResurrectNo();\r\n        });\r\n        this.buttonCongratulationsRanking.onClick.AddListener(()
+    => {\r\n            this.OnClickOpenRanking();\r\n        });\r\n        this.buttonCongratulationsLobby.onClick.AddListener(()
+    => {\r\n            this.OnClickCongratulationsLobby();\r\n        });\r\n       
+    this.buttonFinishedRanking.onClick.AddListener(() => {\r\n            this.OnClickOpenRanking();\r\n       
+    });\r\n        this.buttonHighJump.onClick.AddListener(() => {\r\n           
+    this.OnClickHighJump();\r\n        });\r\n    }\r\n    OnClickResurrect() {\r\n       
+    RunnerPlayerManager.Instance.UseResurrect();\r\n        this.popupResurrect.SetActive(false);\r\n   
+    }\r\n    OnClickResurrectNo() {\r\n        RunnerPlayerManager.Instance.RunnerOver();\r\n       
+    this.popupResurrect.SetActive(false);\r\n        this.popupFinishedScoreText.text
+    = RunnerPlayerManager.Instance.score.toString();\r\n        this.popupFinished.SetActive(true);\r\n   
+    }\r\n    OnClickOpenRanking() {\r\n        this.popupRanking.SetActive(true);\r\n       
+    this.popupRankingDim.SetActive(true);\r\n    }\r\n    OnClickCongratulationsLobby()
+    {\r\n        this.popupCongratulations.SetActive(false);\r\n        RunnerPlayerManager.Instance.BackToStart();\r\n   
+    }\r\n    OpenResurrectPopup(resurrectPrice) {\r\n        this.popupResurrect.SetActive(true);\r\n   
+    }\r\n    OpenCongratulationsPopup() {\r\n        this.popupCongratulationsScoreText.text
+    = RunnerPlayerManager.Instance.score.toString();\r\n        this.popupCongratulations.SetActive(true);\r\n   
+    }\r\n    ActiveScoreCompoenet(isActive) {\r\n        this.scoreComponent.SetActive(isActive);\r\n       
+    this.UpdateScoreNumber();\r\n    }\r\n    UpdateScoreNumber() {\r\n        this.scoreText.text
+    = RunnerPlayerManager.Instance.score.toString();\r\n    }\r\n    ActiveHighJump(isActive)
+    {\r\n        this.buttonHighJump.gameObject.SetActive(isActive);\r\n    }\r\n   
+    UpdateHighJumpGaze(value) {\r\n        this.imageHighJumpGaze.fillAmount = value;\r\n   
+    }\r\n}\r\nexports.default = RunnerPlayerManager;\r\nRunnerPlayerManager.instance
+    = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUnVubmVyUGxheWVyTWFuYWdlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlJ1bm5lclBsYXllck1hbmFnZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBdUk7QUFDdkksNkVBQTZNO0FBQzdNLGlEQUFxRDtBQUNyRCxvR0FBNkY7QUFDN0Ysa0ZBQTJFO0FBQzNFLG1EQUErRDtBQUMvRCwrQ0FBb0Q7QUFDcEQsdURBQWtEO0FBQ2xELHVEQUFxRTtBQUNyRSxtREFBcUQ7QUFHckQsTUFBcUIsbUJBQW9CLFNBQVEscUNBQXFCO0lBQXRFOztRQVlZLGNBQVMsR0FBWSxLQUFLLENBQUM7UUFNM0IsaUJBQVksR0FBWSxLQUFLLENBQUM7UUFTOUIsa0JBQWEsR0FBK0IsSUFBSSxHQUFHLEVBQXlCLENBQUM7UUFxQjlFLG1CQUFjLEdBQVkscUJBQU8sQ0FBQyxJQUFJLENBQUM7UUFFdkMsVUFBSyxHQUFXLENBQUMsQ0FBQztRQUVsQixnQkFBVyxHQUFXLENBQUMsQ0FBQztRQUV4QixrQkFBYSxHQUFXLENBQUMsQ0FBQztJQW1kckMsQ0FBQztJQTVlRyxJQUFXLGNBQWMsS0FBc0IsT0FBTyxJQUFJLENBQUMsY0FBYyxDQUFDLENBQUMsQ0FBQztJQWtFckUsTUFBTSxLQUFLLFFBQVE7UUFDdEIsSUExR0MscUNBQXFCLENBcU1xQixXQUFZLENBM0ZuRCxJQUFJLENBQUMsUUFBUSxFQUFJLElBQUksR0FBRTtZQUN2QixJQUFJLENBQUMsUUFBUSxHQUFHLHdCQUFVLENBQUMsZ0JBQWdCLFNBQUMsbUJBQW1CLEVBQUcsQ0FBQztTQUN0RTtRQUNELE9BQU8sSUFBSSxDQUFDLFFBQVEsQ0FBQztJQUN6QixDQUFDO0lBRUQsS0FBSztRQUNELElBQUksbUJBQW1CLENBQUMsUUFBUSxLQUFLLElBQUksSUFBSSxtQkFBbUIsQ0FBQyxRQUFRLEtBQUssSUFBSSxFQUFFO1lBQ2hGLHdCQUFVLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztTQUN2QzthQUFNO1lBQ0gsbUJBQW1CLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztZQUNwQyx3QkFBVSxDQUFDLGlCQUFpQixDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztTQUNqRDtJQUNMLENBQUM7SUFFRCxLQUFLO1FBRUQsMkNBQWEsQ0FBQyxRQUFRLENBQUMsa0JBQWtCLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUN2RCxJQUFJLENBQUMsbUJBQW1CLEVBQUUsQ0FBQztRQUMvQixDQUFDLENBQUMsQ0FBQztRQUVILElBQUksQ0FBQyxXQUFXLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyx1QkFBdUIsU0FBQyx1QkFBUyxFQUFHLENBQUM7UUFFdkUsSUFBSSxDQUFDLFdBQVcsR0FBRyxvQkFBTSxDQUFDLGdCQUFnQixTQUFDLHFCQUFXLEVBQUcsQ0FBQztRQUUxRCxJQUFJLENBQUMsVUFBVSxHQUFHLG9CQUFNLENBQUMsZ0JBQWdCLFNBQUMsbUNBQW9CLEVBQUcsQ0FBQztRQUNsRSxJQUFJLENBQUMsVUFBVSxnQkFBZSxDQUFDLElBQVUsRUFBRSxFQUFFO1lBQ3pDLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDO1lBRWxCLCtCQUFjLENBQUMsbUJBQW1CLENBQUMsV0FBVyxDQUFDLENBQUMsT0FBTyxFQUFFLFFBQVEsRUFBRSxFQUFFO2dCQUNqRSxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxrQkFBa0IsRUFBRSxDQUFDLENBQUM7WUFDbkQsQ0FBQyxDQUFDLENBQUM7WUFDSCxJQUFJLENBQUMsS0FBSyxDQUFDLGlCQUFpQixDQUFnQixpQkFBaUIsRUFBRSxDQUFDLE9BQU8sRUFBRSxFQUFFO2dCQUN2RSxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxrQkFBa0IsRUFBRSxDQUFDLENBQUM7WUFDbkQsQ0FBQyxDQUFDLENBQUM7UUFDUCxDQUFDLEVBQUE7UUFFRCxJQUFJLENBQUMsWUFBWSxFQUFFLENBQUM7SUFDeEIsQ0FBQztJQUVNLFlBQVk7UUFDZixJQUFJLENBQUMsS0FBSyxHQUFHLENBQUMsQ0FBQztRQUNmLElBQUksQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLFVBQVUsQ0FBQyxRQUFRLENBQUM7UUFDL0MsSUFBSSxDQUFDLG9CQUFvQixDQUFDLElBQUksQ0FBQyxDQUFDO1FBQ2hDLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDLENBQUM7SUFDL0MsQ0FBQztJQUVNLENBQUMsY0FBYztRQUVsQixJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQztRQUV0QixJQUFJLElBQUksQ0FBQyxXQUFXLElBQUksSUFBSSxFQUFFO1lBQzFCLE9BQU87U0FDVjthQUFNO1lBQ0gsSUFBSSxDQUFDLGdCQUFnQixFQUFFLENBQUM7WUFDeEIsTUFBTSxJQUFJLDRCQUFjLENBQUMsQ0FBQyxDQUFDLENBQUM7WUFDNUIsSUFBSSxDQUFDLGNBQWMsQ0FBQyxRQUFRLENBQUMscUJBQU8sQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxRQUFRLEVBQUUsSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUMsRUFBRSx3QkFBVSxDQUFDLFlBQVksQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUM7WUFDcEosSUFBSSxDQUFDLFdBQVcsQ0FBQyxZQUFZLENBQUMsUUFBUSxHQUFHLHdCQUFVLENBQUMsS0FBSyxDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsRUFBRSxDQUFDLENBQUMsQ0FBQztTQUN4RTtJQUNMLENBQUM7SUFFRCxnQkFBZ0I7UUFDWixJQUFJLENBQUMsZUFBZSxDQUFDLFVBQVUsQ0FBQyxPQUFPLENBQUMsQ0FBQztJQUM3QyxDQUFDO0lBRU0sVUFBVTtRQUNiLDRCQUE0QjtRQUM1QixJQUFJLENBQUMsV0FBVyxFQUFFLENBQUM7UUFDbkIsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDO1FBQ3RCLE9BQU8sQ0FBQyxHQUFHLENBQUMsYUFBYSxDQUFDLENBQUM7SUFDL0IsQ0FBQztJQUVNLFdBQVc7UUFDZCxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxhQUFhLEVBQUUsQ0FBQyxDQUFDO0lBQzlDLENBQUM7SUFFTyxDQUFDLGFBQWE7UUFDbEIsaUNBQWlDO1FBQ2pDLElBQUksQ0FBQyxzQkFBc0IsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUNuQyxJQUFJLENBQUMsd0JBQXdCLEVBQUUsQ0FBQztRQUNoQyw0QkFBa0IsQ0FBQyxRQUFRLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUN0RCxDQUFDO0lBRU8sY0FBYztRQUNsQixJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsRUFBRTtZQUN6QixDQUFDLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUNqQyxDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7SUFFRCxnQkFBZ0I7UUFDWix5REFBeUQ7UUFDekQsTUFBTSxZQUFZLEdBQUcsb0JBQU0sQ0FBQyxnQkFBZ0IsU0FBQyxnREFBa0IsRUFBRyxDQUFDO1FBRW5FLHNGQUFzRjtRQUN0RixZQUFZLENBQUMsZ0JBQWdCLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUUzQyxrRUFBa0U7WUFDbEUsSUFBSSxJQUFJLENBQUMsY0FBYyxDQUFDLFlBQVksS0FBSyw0Q0FBYyxDQUFDLElBQUksRUFBRTtnQkFDMUQsSUFBSSxDQUFDLGNBQWMsQ0FBQyxVQUFVLEVBQUUsQ0FBQzthQUNwQztRQUNMLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVELG1CQUFtQjtRQUNmLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDO1FBQ3hCLElBQUksQ0FBQyxXQUFXLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDO1FBQ3RELElBQUksQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLFdBQVcsQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDO1FBQzlELElBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDLGNBQWMsQ0FBQyxjQUFjLENBQUM7UUFDL0MsSUFBSSxDQUFDLFdBQVcsR0FBRyxJQUFJLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQztRQUNqRCxJQUFJLENBQUMsbUJBQW1CLEdBQUcsb0JBQU0sQ0FBQyxnQkFBZ0IsU0FBQyxpREFBbUIsRUFBRyxDQUFDO1FBQzFFLElBQUksQ0FBQyxvQkFBb0IsR0FBRyxvQkFBTSxDQUFDLGdCQUFnQixTQUFDLGtEQUFvQixFQUFHLENBQUM7UUFDNUUsSUFBSSxDQUFDLHdCQUF3QixHQUFHLG9CQUFNLENBQUMsZ0JBQWdCLFNBQUMsbURBQXFCLEVBQUcsQ0FBQztRQUNqRixJQUFJLENBQUMsaUJBQWlCLEdBQUcsSUFBSSxDQUFDLFdBQVcsQ0FBQyxhQUFhLENBQUM7UUFDeEQsSUFBSSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsY0FBYyxDQUFDLFNBQVMsQ0FBQztRQUNwRCxJQUFJLENBQUMsWUFBWSxFQUFFLENBQUM7UUFDcEIsSUFBSSxDQUFDLGVBQWUsR0FBRyxJQUFJLENBQUMsV0FBVyxDQUFDLHNCQUFzQixTQUFDLHNCQUFRLEVBQUcsQ0FBQztJQUMvRSxDQUFDO0lBRUQsZ0JBQWdCLENBQUMsUUFBYztRQUMzQixJQUFJLFFBQVEsRUFBRTtZQUNWLElBQUksQ0FBQyxrQkFBa0IsR0FBRyxJQUFJLENBQUMsV0FBVyxDQUFDLGFBQWEsQ0FBQztZQUN6RCxJQUFJLENBQUMsV0FBVyxDQUFDLGFBQWEsR0FBRyxDQUFDLENBQUM7U0FFdEM7YUFBTTtZQUNILElBQUksQ0FBQyxXQUFXLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxrQkFBa0IsQ0FBQztTQUM1RDtJQUNMLENBQUM7SUFFRCxzQkFBc0IsQ0FBQyxRQUFjO1FBQ2pDLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQ3hELElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQ3pELElBQUksQ0FBQyx3QkFBd0IsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQzdELElBQUksQ0FBQyx3QkFBd0IsQ0FBQyxVQUFVLEVBQUUsQ0FBQztRQUMzQyxJQUFJLENBQUMsd0JBQXdCLENBQUMsT0FBTyxHQUFHLFFBQVEsQ0FBQztJQUNyRCxDQUFDO0lBRU0sV0FBVztRQUNkLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUNqQyxJQUFJLENBQUMsc0JBQXNCLENBQUMsSUFBSSxDQUFDLENBQUM7UUFDbEMsSUFBSSxDQUFDLGdCQUFnQixDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQzdCLElBQUksQ0FBQyxjQUFjLENBQUMsUUFBUSxDQUFDLElBQUkscUJBQU8sQ0FBQyxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxFQUFFLHdCQUFVLENBQUMsUUFBUSxDQUFDLENBQUM7SUFDNUUsQ0FBQztJQUVELE1BQU07UUFDRixJQUFJLElBQUksQ0FBQyxTQUFTLEVBQUU7WUFDaEIsSUFBSSxDQUFDLGVBQWUsRUFBRSxDQUFDO1NBQzFCO0lBQ0wsQ0FBQztJQUVELGVBQWU7UUFDWCxJQUFJLElBQUksQ0FBQyxjQUFjLENBQUMsWUFBWSxJQUFJLEdBQUcsSUFBSSxJQUFJLENBQUMsY0FBYyxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUMsQ0FBQyxHQUFHLENBQUMsR0FBRyxJQUFJLElBQUksQ0FBQyxTQUFTLElBQUksSUFBSSxFQUFFO1lBQ3RILElBQUksQ0FBQyxTQUFTLEdBQUcsS0FBSyxDQUFDO1lBQ3ZCLElBQUksQ0FBQyxzQkFBc0IsQ0FBQyxLQUFLLENBQUMsQ0FBQztZQUNuQyxJQUFJLENBQUMsbUJBQW1CLENBQUMsR0FBRyxDQUFDLENBQUM7WUFDOUIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDO1NBQ2xDO0lBQ0wsQ0FBQztJQUVNLE9BQU87UUFDVixJQUFJLElBQUksQ0FBQyxXQUFXLEdBQUcsQ0FBQyxFQUFFO1lBQ3RCLElBQUksQ0FBQyxTQUFTLEVBQUUsQ0FBQztTQUNwQjthQUFNLElBQUksSUFBSSxDQUFDLFdBQVcsSUFBSSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsWUFBWSxFQUFFO1lBQ3BELElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxHQUFHLENBQUMsQ0FBQztZQUM5QixPQUFPLENBQUMsR0FBRyxDQUFDLFNBQVMsQ0FBQyxDQUFDO1NBQzFCO0lBQ0wsQ0FBQztJQUVELG1CQUFtQixDQUFDLGNBQXNCO1FBQ3RDLElBQUksQ0FBQyxzQkFBc0IsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUNuQyxJQUFJLENBQUMsa0JBQWtCLENBQUMsY0FBYyxDQUFDLENBQUM7UUFDeEMsT0FBTyxDQUFDLEdBQUcsQ0FBQyxxQkFBcUIsQ0FBQyxDQUFDO0lBQ3ZDLENBQUM7SUFDTSxZQUFZO1FBQ2YsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsY0FBYyxFQUFFLENBQUMsQ0FBQztJQUMvQyxDQUFDO0lBRU8sQ0FBQyxjQUFjO1FBQ25CLE9BQU8sQ0FBQyxHQUFHLENBQUMsa0JBQWtCLENBQUMsQ0FBQztRQUNoQyxJQUFJLENBQUMsY0FBYyxDQUFDLFFBQVEsQ0FBQyxxQkFBTyxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsY0FBYyxFQUFFLElBQUkscUJBQU8sQ0FBQyxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDLEVBQUUsd0JBQVUsQ0FBQyxZQUFZLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxPQUFPLENBQUMsQ0FBQyxDQUFDO1FBQy9JLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDLENBQUM7UUFDM0MsTUFBTSxJQUFJLENBQUM7UUFDWCxNQUFNLElBQUksQ0FBQztRQUNYLElBQUksQ0FBQyxzQkFBc0IsQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUNsQyxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQztJQUMxQixDQUFDO0lBRU0sU0FBUztRQUNaLElBQUksQ0FBQyxJQUFJLENBQUMsWUFBWSxFQUFFO1lBQ3BCLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDLENBQUM7WUFDM0MsSUFBSSxJQUFJLENBQUMsV0FBVyxHQUFHLENBQUMsRUFBRTtnQkFDdEIsSUFBSSxDQUFDLHVCQUF1QixDQUFDLFFBQVEsQ0FBQyxDQUFDO2FBQzFDO1lBQ0QsT0FBTyxDQUFDLEdBQUcsQ0FBQyxZQUFZLENBQUMsQ0FBQztTQUM3QjtJQUNMLENBQUM7SUFFRCxDQUFDLGNBQWM7UUFDWCxJQWpUa0Msb0JBQU0sQ0FxaEJzeEksV0FBWSxDQXBPdDBJLElBQUksQ0FBQyx1QkFBdUIsRUFBSSxJQUFJLEdBQUU7WUFDdEMsSUFBSSxDQUFDLHVCQUF1QixHQUFHLHdCQUFVLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxZQUFZLEVBQUUsSUFBSSxDQUFDLGNBQWMsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFlLENBQUM7U0FDcEk7UUFDRCxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQztRQUN6QixJQUFJLENBQUMsdUJBQXVCLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQzdDLE1BQU0sSUFBSSw0QkFBYyxDQUFDLENBQUMsQ0FBQyxDQUFDO1FBQzVCLElBQUksQ0FBQyxZQUFZLEdBQUcsS0FBSyxDQUFDO1FBQzFCLElBQUksQ0FBQyx1QkFBdUIsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDbEQsQ0FBQztJQUVELFVBQVU7UUFDTixJQUFJLENBQUMsU0FBUyxHQUFHLEtBQUssQ0FBQztJQUMzQixDQUFDO0lBRU0sUUFBUTtRQUNYLElBQUksQ0FBQyxLQUFLLElBQUksQ0FBQyxDQUFDO1FBQ2hCLElBQUksQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO0lBQzdCLENBQUM7SUFFTSxXQUFXO1FBQ2QsSUFBSSxJQUFJLENBQUMsd0JBQXdCLElBQUksSUFBSSxJQUFJLElBQUksQ0FBQyxhQUFhLElBQUksQ0FBQyxFQUFFO1lBQ2xFLE9BQU87U0FDVjtRQUNELElBQUksQ0FBQyx3QkFBd0IsR0FBRyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDLENBQUM7SUFDakYsQ0FBQztJQUVPLENBQUMsZ0JBQWdCO1FBQ3JCLElBQUksQ0FBQyxjQUFjLENBQUMsbUJBQW1CLEdBQUcsSUFBSSxDQUFDLGNBQWMsQ0FBQztRQUM5RCxJQUFJLFlBQVksR0FBRyxJQUFJLENBQUMsY0FBYyxDQUFDO1FBRXZDLE9BQU8sWUFBWSxHQUFHLENBQUMsRUFBRTtZQUNyQixJQUFJLENBQUMsa0JBQWtCLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsQ0FBQztZQUM1RCxZQUFZLElBQUksa0JBQUksQ0FBQyxTQUFTLENBQUM7WUFDL0IsTUFBTSxJQUFJLENBQUM7U0FDZDtRQUNELElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxDQUFDLENBQUMsQ0FBQztRQUMzQixJQUFJLENBQUMsY0FBYyxDQUFDLG1CQUFtQixHQUFHLENBQUMsQ0FBQztRQUM1QyxJQUFJLENBQUMsd0JBQXdCLEdBQUcsSUFBSSxDQUFDO0lBQ3pDLENBQUM7SUFFTSxpQkFBaUIsQ0FBQyxRQUFpQjtRQUN0QyxPQUFPLENBQUMsR0FBRyxDQUFDLGNBQWMsQ0FBQyxDQUFDO1FBQzVCLElBM1ZrQyxvQkFBTSxDQXFoQnN4SSxXQUFZLENBMUx0MEksSUFBSSxDQUFDLGtCQUFrQixFQUFJLElBQUksR0FBRTtZQUNqQyxJQUFJLENBQUMsa0JBQWtCLEdBQUcsd0JBQVUsQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLFdBQVcsRUFBRSxJQUFJLENBQUMsY0FBYyxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQWUsQ0FBQztTQUM5SDtRQUNELElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDLENBQUM7SUFDaEQsQ0FBQztJQUdNLGVBQWU7UUFDbEIsSUFBSSxJQUFJLENBQUMsYUFBYSxHQUFHLENBQUMsRUFBRTtZQUN4QixJQUFJLENBQUMsdUJBQXVCLENBQUMsVUFBVSxDQUFDLENBQUM7U0FDNUM7SUFDTCxDQUFDO0lBRU0sU0FBUztRQUNaLElBQUksQ0FBQyxXQUFXLENBQUMsY0FBYyxDQUFDLFFBQVEsRUFBRSxDQUFDLENBQUMsQ0FBQztJQUNqRCxDQUFDO0lBRU0sV0FBVztRQUNkLElBQUksQ0FBQyxXQUFXLENBQUMsY0FBYyxDQUFDLFVBQVUsRUFBRSxDQUFDLENBQUMsQ0FBQztJQUNuRCxDQUFDO0lBRU0sWUFBWTtRQUNmLE9BQU8sQ0FBQyxHQUFHLENBQUMsZUFBZSxDQUFDLENBQUM7SUFDakMsQ0FBQztJQUVNLE9BQU87UUFDVixJQUFJLENBQUMsV0FBVyxDQUFDLGtCQUFrQixDQUFDLE1BQU0sRUFBRSxDQUFDLENBQUMsQ0FBQztJQUNuRCxDQUFDO0lBRU0sWUFBWTtRQUNmLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDLENBQUM7SUFDL0MsQ0FBQztJQUVPLENBQUMsY0FBYztRQUNuQixNQUFNLE9BQU8sR0FBRywrQkFBYyxDQUFDLGdCQUFnQixFQUFFLENBQUM7UUFDbEQsTUFBTSxJQUFJLHVCQUFTLENBQUMsR0FBRyxFQUFFLENBQUMsT0FBTyxDQUFDLFdBQVcsSUFBSSxLQUFLLENBQUMsQ0FBQztRQUN4RCxJQUFJLE9BQU8sQ0FBQyxZQUFZLENBQUMsU0FBUyxFQUFFO1lBQ2hDLE9BQU8sQ0FBQyxZQUFZLENBQUMsUUFBUSxDQUFDLE9BQU8sQ0FBQyxDQUFDLEVBQUUsRUFBRSxFQUFFO2dCQUN6QyxJQUFJLENBQUMsYUFBYSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsU0FBUyxFQUFFLEVBQUUsQ0FBQyxDQUFDO1lBQzdDLENBQUMsQ0FBQyxDQUFDO1NBQ047UUFDRCxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxrQkFBa0IsRUFBRSxDQUFDLENBQUM7SUFDbkQsQ0FBQztJQUVPLENBQUUsa0JBQWtCO1FBQ3hCLE1BQU0sT0FBTyxHQUFHLG1DQUFnQixDQUFDLFlBQVksRUFBRSxDQUFDO1FBQ2hELE1BQU0sSUFBSSx1QkFBUyxDQUFDLEdBQUcsRUFBRSxDQUFDLE9BQU8sQ0FBQyxXQUFXLElBQUksS0FBSyxDQUFDLENBQUM7UUFDeEQsSUFBSSxPQUFPLENBQUMsWUFBWSxDQUFDLFNBQVMsRUFBRTtZQUNoQyxNQUFNLEtBQUssR0FBc0IsT0FBTyxDQUFDLFlBQVksQ0FBQyxRQUFRLENBQUM7WUFFL0QsSUFBSSxDQUFDLGVBQWUsR0FBRyxLQUFLLENBQUM7WUFFN0IsS0FBSyxDQUFDLE9BQU8sQ0FBQyxDQUFDLEVBQUUsRUFBRSxFQUFFO2dCQUNqQixJQUFJLENBQUMsUUFBUSxDQUFDLEVBQUUsQ0FBQyxTQUFTLEVBQUUsRUFBRSxDQUFDLFFBQVEsQ0FBQyxDQUFDO2dCQUN6QyxPQUFPLENBQUMsR0FBRyxDQUFDLGNBQWMsRUFBRSxDQUFDLFNBQVMsZ0JBQWdCLEVBQUUsQ0FBQyxRQUFRLEVBQUUsQ0FBQyxDQUFDO1lBQ3pFLENBQUMsQ0FBQyxDQUFDO1NBQ047SUFDTCxDQUFDO0lBRU8sUUFBUSxDQUFDLFNBQWlCLEVBQUUsUUFBZ0I7UUFFaEQsT0FBTyxDQUFDLEdBQUcsQ0FBQyxjQUFjLEdBQUcsU0FBUyxHQUFHLGFBQWEsR0FBRyxRQUFRLENBQUMsUUFBUSxFQUFFLENBQUMsQ0FBQztRQUU5RSxRQUFRLFNBQVMsRUFBRTtZQUVmLEtBQUssUUFBUTtnQkFDVCxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUksR0FBRyxRQUFRLENBQUMsUUFBUSxFQUFFLENBQUM7Z0JBQzVDLElBQUksQ0FBQyxXQUFXLEdBQUcsTUFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDO2dCQUNwQyxNQUFNO1lBRVYsS0FBSyxVQUFVO2dCQUNYLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxHQUFHLFFBQVEsQ0FBQyxRQUFRLEVBQUUsQ0FBQztnQkFDL0MsSUFBSSxDQUFDLGFBQWEsR0FBRyxNQUFNLENBQUMsUUFBUSxDQUFDLENBQUM7Z0JBQ3RDLE1BQU07WUFFVixLQUFLLGtCQUFrQjtnQkFDbkIsSUFBSSxRQUFRLEdBQUcsQ0FBQyxFQUFFO29CQUNkLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDO29CQUN4QixJQUFJLENBQUMsdUJBQXVCLENBQUMsa0JBQWtCLENBQUMsQ0FBQztpQkFDcEQ7Z0JBQ0QsTUFBTTtZQUVWLEtBQUssbUJBQW1CO2dCQUVwQixJQUFJLFFBQVEsR0FBRyxDQUFDLEVBQUU7b0JBQ2QsSUFBSSxDQUFDLGdCQUFnQixFQUFFLENBQUM7b0JBQ3hCLElBQUksQ0FBQyx1QkFBdUIsQ0FBQyxtQkFBbUIsQ0FBQyxDQUFDO2lCQUNyRDtnQkFDRCxNQUFNO1lBRVYsS0FBSyxPQUFPO2dCQUNSLElBQUksUUFBUSxHQUFHLENBQUMsRUFBRTtvQkFDZCxJQUFJLENBQUMsaUJBQWlCLENBQUMsSUFBSSxDQUFDLENBQUM7aUJBQ2hDO2dCQUNELE1BQU07U0FDYjtJQUNMLENBQUM7SUFFTyx1QkFBdUIsQ0FBQyxNQUFjO1FBRTFDLE1BQU0sSUFBSSxHQUFHLElBQUksQ0FBQyxhQUFhLENBQUMsR0FBRyxDQUFDLE1BQU0sQ0FBQyxDQUFDO1FBRTVDLElBQUksSUFBSSxJQUFJLElBQUksRUFBRTtZQUNkLE9BQU8sQ0FBQyxJQUFJLENBQUMsbUJBQW1CLENBQUMsQ0FBQztZQUNsQyxPQUFPO1NBQ1Y7UUFDRCxJQUFJLElBQUksQ0FBQyxVQUFVLENBQUMsSUFBSSxJQUFJLElBQUksRUFBRTtZQUM5QixPQUFPLENBQUMsSUFBSSxDQUFDLG1CQUFtQixDQUFDLENBQUM7WUFDbEMsT0FBTztTQUNWO1FBRUQsTUFBTSxJQUFJLEdBQUcsSUFBSSwyQkFBUSxFQUFFLENBQUM7UUFDNUIsSUFBSSxDQUFDLEdBQUcsQ0FBQyxXQUFXLEVBQUUsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDO1FBQ3RDLElBQUksQ0FBQyxHQUFHLENBQUMsVUFBVSxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3hCLElBQUksQ0FBQyxVQUFVLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxJQUFJLENBQUMsU0FBUyxFQUFFLENBQUMsQ0FBQztJQUNuRSxDQUFDO0lBR08sWUFBWTtRQUVoQixJQUFJLENBQUMsaUJBQWlCLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDNUMsSUFBSSxDQUFDLGtCQUFrQixFQUFFLENBQUM7UUFDOUIsQ0FBQyxDQUFDLENBQUM7UUFDSCxJQUFJLENBQUMsNEJBQTRCLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDdkQsSUFBSSxDQUFDLGtCQUFrQixFQUFFLENBQUM7UUFDOUIsQ0FBQyxDQUFDLENBQUM7UUFDSCxJQUFJLENBQUMsMEJBQTBCLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDckQsSUFBSSxDQUFDLDJCQUEyQixFQUFFLENBQUM7UUFDdkMsQ0FBQyxDQUFDLENBQUM7UUFDSCxJQUFJLENBQUMscUJBQXFCLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDaEQsSUFBSSxDQUFDLGtCQUFrQixFQUFFLENBQUM7UUFDOUIsQ0FBQyxDQUFDLENBQUM7UUFDSCxJQUFJLENBQUMsY0FBYyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3pDLElBQUksQ0FBQyxlQUFlLEVBQUUsQ0FBQztRQUMzQixDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7SUFFTSxnQkFBZ0I7UUFDbkIsbUJBQW1CLENBQUMsUUFBUSxDQUFDLFlBQVksRUFBRSxDQUFDO1FBQzVDLElBQUksQ0FBQyxjQUFjLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQ3pDLENBQUM7SUFFTyxrQkFBa0I7UUFDdEIsbUJBQW1CLENBQUMsUUFBUSxDQUFDLFVBQVUsRUFBRSxDQUFDO1FBQzFDLElBQUksQ0FBQyxjQUFjLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQ3JDLElBQUksQ0FBQyxzQkFBc0IsQ0FBQyxJQUFJLEdBQUcsbUJBQW1CLENBQUMsUUFBUSxDQUFDLEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztRQUNqRixJQUFJLENBQUMsYUFBYSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUN2QyxDQUFDO0lBRU8sa0JBQWtCO1FBQ3RCLElBQUksQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQ2xDLElBQUksQ0FBQyxlQUFlLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO0lBQ3pDLENBQUM7SUFFTywyQkFBMkI7UUFDL0IsSUFBSSxDQUFDLG9CQUFvQixDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUMzQyxtQkFBbUIsQ0FBQyxRQUFRLENBQUMsV0FBVyxFQUFFLENBQUM7SUFDL0MsQ0FBQztJQUVNLGtCQUFrQixDQUFDLGNBQXNCO1FBQzVDLElBQUksQ0FBQyxjQUFjLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO0lBQ3hDLENBQUM7SUFFTSx3QkFBd0I7UUFDM0IsSUFBSSxDQUFDLDZCQUE2QixDQUFDLElBQUksR0FBRyxtQkFBbUIsQ0FBQyxRQUFRLENBQUMsS0FBSyxDQUFDLFFBQVEsRUFBRSxDQUFDO1FBQ3hGLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUM7SUFDOUMsQ0FBQztJQUVELG9CQUFvQixDQUFDLFFBQWlCO1FBQ2xDLElBQUksQ0FBQyxjQUFjLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQ3hDLElBQUksQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO0lBQzdCLENBQUM7SUFFRCxpQkFBaUI7UUFDYixJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksR0FBRyxtQkFBbUIsQ0FBQyxRQUFRLENBQUMsS0FBSyxDQUFDLFFBQVEsRUFBRSxDQUFDO0lBQ3hFLENBQUM7SUFFRCxjQUFjLENBQUMsUUFBaUI7UUFDNUIsSUFBSSxDQUFDLGNBQWMsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDO0lBQ3ZELENBQUM7SUFFTSxrQkFBa0IsQ0FBQyxLQUFhO1FBQ25DLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxVQUFVLEdBQUcsS0FBSyxDQUFDO0lBQzlDLENBQUM7O0FBdGdCTCxzQ0F5Z0JDO0FBdmdCa0IsNEJBQVEsR0FBd0IsSUFBSSxDQUFDIn0=","assetPath":"Assets/Template_Resources/Scripts/RunnerPlayerManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"doubleJumpTime","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"starGroup","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"shieldEffect","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Effect
+    Prefabs\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"resurrectEffect","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"trailEffect","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"startPoint","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"lastSpawnPoint","type":"UnityEngine.Vector3","isArray":false,"initValue":["zero"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"score","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"shieldCount","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"highJumpCount","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.UI","name":"numberStar","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"UI
+    Reference\""]},{"name":"Header","args":["\"Upper Component\""]}]},{"assembly":"UnityEngine.UI","name":"numberZem","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"numerShield","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"numberHighJump","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"scoreComponent","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Score
+    UI\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"scoreText","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"popupResurrect","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Pop
+    up Resurrect\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"buttonRessurectNo","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"popupFinished","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Pop
+    up Finished\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"popupFinishedScoreText","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"buttonFinishedRanking","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"buttonFinishedLobby","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"popupRanking","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Pop
+    Up Ranking\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"popupRankingDim","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"popupCongratulations","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Pop
+    up congratulations\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"popupCongratulationsScoreText","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"buttonCongratulationsRanking","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"buttonCongratulationsLobby","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"buttonHighJump","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Button
+    High Jump\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"imageHighJumpGaze","type":"UnityEngine.UI.Image","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"RunnerPlayerManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: a5df418af277152ee360a9bfff285301
+  onlyWriteTrigger: 0

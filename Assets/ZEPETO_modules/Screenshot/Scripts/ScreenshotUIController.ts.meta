@@ -1,0 +1,86 @@
+fileFormatVersion: 2
+guid: ab0919fb3f6871a44bbac8d8347269d1
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nclass
+    ScreenshotUIController extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    IsValid(value) {\r\n        if (value == undefined || value == null) {\r\n           
+    return false;\r\n        }\r\n        return true;\r\n    }\r\n    set SimpleResultPanel(value)
+    { this._simpleResultPanel = value; }\r\n    get SimpleResultPanel() { return
+    this._simpleResultPanel; }\r\n    set ProgressToast(value) { this._progressToast
+    = value; }\r\n    get ProgressToast() { return this._progressToast; }\r\n   
+    set FailToast(value) { this._failToast = value; }\r\n    get FailToast() { return
+    this._failToast; }\r\n    set SuccessToast(value) { this._successToast = value;
+    }\r\n    get SuccessToast() { return this._successToast; }\r\n    // returns
+    {bool}\r\n    get IsUIActive() {\r\n        if (!this.IsValid(this._screenshotCanvas))
+    {\r\n            console.error(\"Invalid screenshotCanvas\");\r\n        }\r\n       
+    return this._screenshotCanvas.activeSelf;\r\n    }\r\n    get IsPreviewWindowActive()
+    {\r\n        if (!this.IsValid(this._previewPanel)) {\r\n            console.error(\"Invalid
+    Preview Panel\");\r\n        }\r\n        return this._previewPanel.activeSelf;\r\n   
+    }\r\n    // returns {GameObject}\r\n    get VideoTimer() {\r\n        if (!this.IsValid(this._videoTimer))
+    {\r\n            console.error(\"Invalid VideoTimer GameObject\");\r\n       
+    }\r\n        return this._videoTimer;\r\n    }\r\n    get PreviewWindow() {\r\n       
+    if (!this.IsValid(this._previewPanel)) {\r\n            console.error(\"Invalid
+    Preview Panel\");\r\n        }\r\n        return this._previewPanel;\r\n    }\r\n   
+    get PreviewRawImage() {\r\n        if (!this.IsValid(this._previewRawImage))
+    {\r\n            console.error(\"Invalid Preview Raw Image\");\r\n        }\r\n       
+    return this._previewRawImage;\r\n    }\r\n    get PreviewVideoRawImage() {\r\n       
+    if (!this.IsValid(this._previewVideoRawImage)) {\r\n            console.error(\"Invalid
+    Preview Raw Image\");\r\n        }\r\n        return this._previewVideoRawImage;\r\n   
+    }\r\n    // returns {Button}\r\n    get TakePhotoScreenshotButton() {\r\n       
+    if (!this.IsValid(this._takePhotoButton)) {\r\n            console.error(\"Invalid
+    Photo Button\");\r\n        }\r\n        return this._takePhotoButton;\r\n   
+    }\r\n    get TakeVideoScreenshotButton() {\r\n        if (!this.IsValid(this._takeVideoButton))
+    {\r\n            console.error(\"Invalid Video Button\");\r\n        }\r\n       
+    return this._takeVideoButton;\r\n    }\r\n    get ExitButton() {\r\n        if
+    (!this.IsValid(this._exitButton)) {\r\n            console.error(\"Invalid ExitButton
+    Button\");\r\n        }\r\n        return this._exitButton;\r\n    }\r\n    get
+    PreviewExitButton() {\r\n        if (!this.IsValid(this._previewExitButton))
+    {\r\n            console.error(\"Invalid Preview Exit Button\");\r\n        }\r\n       
+    return this._previewExitButton;\r\n    }\r\n    get PreviewUploadButton() {\r\n       
+    if (!this.IsValid(this._previewUploadButton)) {\r\n            console.error(\"Invalid
+    Preview Upload Button\");\r\n        }\r\n        return this._previewUploadButton;\r\n   
+    }\r\n    get PreviewShareButton() {\r\n        if (!this.IsValid(this._previewShareButton))
+    {\r\n            console.error(\"Invalid Preview Share Button\");\r\n       
+    }\r\n        return this._previewShareButton;\r\n    }\r\n    get PreviewSaveButton()
+    {\r\n        if (!this.IsValid(this._previewSaveButton)) {\r\n            console.error(\"Invalid
+    Preview Save Button\");\r\n        }\r\n        return this._previewSaveButton;\r\n   
+    }\r\n    // returns {InputField}\r\n    get PreviewInputField() {\r\n       
+    if (!this.IsValid(this._previewInputField)) {\r\n            console.error(\"Invalid
+    Preview Input Field\");\r\n        }\r\n        return this._previewInputField;\r\n   
+    }\r\n    /* UI Toggle */\r\n    ToggleUI() {\r\n        if (this.IsUIActive)
+    {\r\n            this._screenshotCanvas.SetActive(false);\r\n        }\r\n       
+    else {\r\n            this._screenshotCanvas.SetActive(true);\r\n        }\r\n   
+    }\r\n    ToggleEasyUploadWindow(value) {\r\n        this._simpleResultPanel.SetActive(value);\r\n   
+    }\r\n    ToggleSuccessToastWindow(value) {\r\n        this._successToast.SetActive(value);\r\n   
+    }\r\n    ToggleFailToastWindow(value) {\r\n        this._failToast.SetActive(value);\r\n   
+    }\r\n    ToggleProgressToastWindow(value) {\r\n        this._progressToast.SetActive(value);\r\n   
+    }\r\n    TogglePreviewRawImage(value) {\r\n        this._previewRawImage.SetActive(value);\r\n   
+    }\r\n    TogglePreviewVideoRawImage(value) {\r\n        this._previewVideoRawImage.SetActive(value);\r\n   
+    }\r\n}\r\nexports.default = ScreenshotUIController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2NyZWVuc2hvdFVJQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlNjcmVlbnNob3RVSUNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFDckQsbURBQW9EO0FBQ3BELDZDQUF5QztBQUV6QyxNQUFxQixzQkFBdUIsU0FBUSxxQ0FBcUI7SUEwQjdELE9BQU8sQ0FBQyxLQUFVO1FBQ3RCLElBQUksS0FBSyxJQUFJLFNBQVMsSUFBSSxLQUFLLElBQUksSUFBSSxFQUFFO1lBQ3JDLE9BQU8sS0FBSyxDQUFDO1NBQ2hCO1FBQ0QsT0FBTyxJQUFJLENBQUM7SUFDaEIsQ0FBQztJQUVELElBQVcsaUJBQWlCLENBQUMsS0FBVSxJQUFJLElBQUksQ0FBQyxrQkFBa0IsR0FBRyxLQUFLLENBQUMsQ0FBQyxDQUFDO0lBRTdFLElBQVcsaUJBQWlCLEtBQUssT0FBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsQ0FBQyxDQUFDO0lBRWxFLElBQVcsYUFBYSxDQUFDLEtBQVUsSUFBSSxJQUFJLENBQUMsY0FBYyxHQUFHLEtBQUssQ0FBQyxDQUFDLENBQUM7SUFFckUsSUFBVyxhQUFhLEtBQWlCLE9BQU8sSUFBSSxDQUFDLGNBQWMsQ0FBQyxDQUFDLENBQUM7SUFFdEUsSUFBVyxTQUFTLENBQUMsS0FBVSxJQUFJLElBQUksQ0FBQyxVQUFVLEdBQUcsS0FBSyxDQUFDLENBQUMsQ0FBQztJQUU3RCxJQUFXLFNBQVMsS0FBaUIsT0FBTyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUMsQ0FBQztJQUU5RCxJQUFXLFlBQVksQ0FBQyxLQUFVLElBQUksSUFBSSxDQUFDLGFBQWEsR0FBRyxLQUFLLENBQUMsQ0FBQyxDQUFDO0lBRW5FLElBQVcsWUFBWSxLQUFpQixPQUFPLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQyxDQUFDO0lBRXBFLGlCQUFpQjtJQUNqQixJQUFXLFVBQVU7UUFDakIsSUFBSSxDQUFDLElBQUksQ0FB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","assetPath":"Assets/ZEPETO_modules/Screenshot/Scripts/ScreenshotUIController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"_screenshotCanvas","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_simpleResultPanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_takePhotoButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Screenshot
+    Main UI\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_takeVideoButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_exitButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_videoTimer","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_previewPanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Preview
+    Panel\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_previewUploadButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_previewShareButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_previewSaveButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_previewExitButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_previewRawImage","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_previewVideoRawImage","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_previewInputField","type":"UnityEngine.UI.InputField","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_successToast","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Toasts\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_failToast","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_progressToast","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"ScreenshotUIController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 8cbafe5ef87c1c0697d7d363e21a79fd
+  onlyWriteTrigger: 0

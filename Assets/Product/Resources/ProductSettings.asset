@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1531310573, guid: 5ed5fc990562640bca475bb90d769b51, type: 3}
+  m_Name: ProductSettings
+  m_EditorClassIdentifier: 
+  productTextureInfo:
+  - targetId: highjump
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/highjump.png
+  - targetId: resurrection_star
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/star.png
+  - targetId: resurrection_zem
+    targetAssetPath: Packages/zepeto.module/Product/Runtime/Resources/Images/_img_credit_zem_180.png
+  - targetId: shield
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/shield.png
+  - targetId: star100
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/star_package.png
+  - targetId: star12000
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/star_package.png
+  - targetId: star2750
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/star_package.png
+  - targetId: star420
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/star_package.png
+  - targetId: tip
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/tip2.png
+  - targetId: trail_
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/trail_1.png
+  - targetId: trail_1
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/trail_1.png
+  - targetId: trail_2
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/trail_1.png
+  - targetId: trail_3
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/trail_1.png
+  - targetId: trail_4
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/trail_1.png
+  currencyTextureInfo:
+  - targetId: star
+    targetAssetPath: Assets/ZEPETO_modules/Product/Resources/UI/star.png
